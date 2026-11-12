@@ -731,7 +731,19 @@ function draw(){
  g.restore();
  const p=S.t/DAYLEN,lp=(a,b,k)=>a.map((v,i)=>v+(b[i]-v)*k);
  const c=p<.55?null:p<.75?lp([255,255,255],[255,175,120],(p-.55)/.2):lp([255,175,120],[70,80,140],(p-.75)/.25);
- if(c){g.globalCompositeOperation='multiply';g.fillStyle=`rgb(${c.map(Math.round)})`;g.fillRect(0,0,VW,VH);g.globalCompositeOperation='source-over'}}
+ if(c){g.globalCompositeOperation='multiply';g.fillStyle=`rgb(${c.map(Math.round)})`;g.fillRect(0,0,VW,VH);g.globalCompositeOperation='source-over'}
+ drawLights(Math.round(camX),Math.round(camY),p<.55?0:Math.min(1,(p-.55)/.2))}
+// ===== iluminação: poste e tochas brilham à noite =====
+const TOCHA='i:7:5';
+function glow(x,y,r,a){const gr=g.createRadialGradient(x,y,0,x,y,r);gr.addColorStop(0,`rgba(255,215,120,${a})`);gr.addColorStop(.4,`rgba(255,165,65,${a*.5})`);gr.addColorStop(1,'rgba(255,140,40,0)');g.fillStyle=gr;g.fillRect(x-r,y-r,2*r,2*r)}
+function drawLights(ox,oy,nf){if(nf<=0)return;const t=performance.now()/1000;
+ g.save();g.globalCompositeOperation='lighter';
+ for(const d of DECO){if(d.sx!=32||d.sy!=256)continue;const x=d.x*T+16-ox,y=(d.y+1)*T-64+18-oy,f=Math.sin(t*4+d.x)*1.5;glow(x,y,125+f,.5*nf);glow(x,y,36,.45*nf)}
+ for(const o of GND)if(o.sc==='farm'&&o.id===TOCHA)glow(o.x-ox,o.y-10-oy,70+Math.sin(t*9+o.x)*3,.5*nf);
+ if(cur()===TOCHA&&S.scene==='farm')glow(P.x-ox,P.y-14-oy,105+Math.sin(t*9)*4,.55*nf);
+ g.restore();
+ for(const d of DECO){if(d.sx!=32||d.sy!=256)continue;const x=d.x*T-ox,y=(d.y+1)*T-64-oy;g.globalAlpha=nf;g.fillStyle='#fff6b8';g.fillRect(x+12,y+14,8,8);g.fillStyle='#ffd25a';g.fillRect(x+12,y+20,8,2);g.globalAlpha=1}}
+
 
 // ===== mina de pedra (escada do morro) =====
 const MNW=22,MNH=15,MNS=[...Array(MNH)].map((_,y)=>[...Array(MNW)].map((_,x)=>(y<=1||x==0||x==MNW-1||y==MNH-1)?1:0)),MNB=[];
@@ -803,7 +815,12 @@ function drawMine(){
  for(const o of MNB.map(b=>({y:(b.tl[0][1]+1)*T,f:()=>drawMRock(b)})).concat(GND.filter(o=>o.sc==='mine').map(o=>({y:o.y,f:()=>drawGround(o)})),[{y:P.y+9,f:drawPlayer}]).sort((a,b)=>a.y-b.y))o.f();
  for(const p of PT){const a=Math.max(0,Math.min(1,p.l/p.m)),sz=p.s*(.4+.6*a);g.globalAlpha=a;g.fillStyle=p.c;g.fillRect(Math.round(p.x-sz/2),Math.round(p.y-sz/2),sz,sz)}g.globalAlpha=1;
  g.restore();
- const px=P.x-camX,py=P.y-camY-10,gr=g.createRadialGradient(px,py,120,px,py,320);gr.addColorStop(0,'rgba(5,4,12,0)');gr.addColorStop(1,'rgba(5,4,12,.5)');g.fillStyle=gr;g.fillRect(0,0,VW,VH)}
+ const px=P.x-camX,py=P.y-camY-10,gr=g.createRadialGradient(px,py,120,px,py,320);gr.addColorStop(0,'rgba(5,4,12,0)');gr.addColorStop(1,'rgba(5,4,12,.5)');g.fillStyle=gr;g.fillRect(0,0,VW,VH);
+ g.save();g.globalCompositeOperation='lighter';const tt=performance.now()/1000;
+ for(const tx of[9.5,13.5])glow(tx*T-camX,(MNH-1)*T+8-camY,115+Math.sin(tt*13+tx)*4,.4);
+ for(const o of GND)if(o.sc==='mine'&&o.id===TOCHA)glow(o.x-camX,o.y-10-camY,75,.5);
+ if(cur()===TOCHA)glow(px,py,130+Math.sin(tt*9)*5,.6);
+ g.restore()}
 addEventListener('keydown',e=>{const k=e.key.toLowerCase();keys[k]=1;
  if(k==='e'&&$('chest').style.display==='flex'){closeP();return}
  if(k>='1'&&k<='6')selSlot(+k-1);
