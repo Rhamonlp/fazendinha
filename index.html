@@ -237,7 +237,7 @@ const MF='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMCAYAAAC0qUeeAAAA
 const IT=new Image();IT.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAKxJREFUOI3tkz8KgzAUh7+oUPAGDkLI5h56Aq/jabyOJ5DubqXg4A0EB0mXvrRxsAld+9u+PPL+/HgPAKOtM9o6XkphZbR1bbUDMCw5AClcSNamLmlqAp3xNK8AKGmpu16CQFOXpzwsOffHTRXHjN8+Cg/LhvdAqqeqHzey4+M0r75aDHsPxNnYEfpxCz2QQCz7Dv4ekH1WT2m/rXaMti7YRDkWeK/rGXv9cs5PsdyqoOMFA4cAAAAASUVORK5CYII=';const IM=new Image();IM.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAQCAYAAABQrvyxAAAAAXNSR0IArs4c6QAAAPBJREFUSIntlU0KgzAQhV9KBQ/RRUhX7rPrBfQavUTP0Et4DXuB7rJ3F7LoLRTSRQkMmkSNlFbwA8FknMmbnyCws7OzadivBfgQXFrfvjZqpPeQEmitkCmfoupwe55QVB0AwK198YIJCC7tOc+TkxBc2tChUz6OtslA10XVjeJ5E3DiASAlCSpkaRIU14EY0RHaAkffpjaKgVTNd3liaKPY/YJk/yUEO6CNYu5ZGlRwacu6BwCUdT97hD6Jv4L2tslGxfhKZZxgbRSj73P8yrrH4+odDDgbjeX/ciX0gJQODoXSjg75qx+ZiNy7mG3TvAEjaHcLc1ikXQAAAABJRU5ErkJggg==';
 const DN=['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
 const DAYLEN=120,keys={},joy={x:0,y:0},$=id=>document.getElementById(id);
-const near=()=>S.scene!=='home'&&Math.hypot(P.x/T-CHEST.x-.5,P.y/T-CHEST.y-.5)<2.2;
+const near=()=>S.scene==='farm'&&Math.hypot(P.x/T-CHEST.x-.5,P.y/T-CHEST.y-.5)<2.2;
 function toast(t){const e=$('toast');e.textContent=t;e.style.opacity=1;clearTimeout(toast.h);toast.h=setTimeout(()=>e.style.opacity=0,2200)}
 function openP(id){S.cTarget=0;clearTimeout(S.cTimer);S.paused=true;jr();$(id).style.display='flex';if(id=='inv')renderInv();else if(0)$('invc').innerHTML=`🌰 Sementes: ${S.seeds}<br>🍉 Melancias: ${S.harv}<br>🥕 Cenouras: ${S.car} (sementes: ${S.cs})<br>🥚 Ovos: ${S.egg}<br>💰 Moedas: ${S.money}<br>📅 Dia ${S.day}<br>❤️ ${S.hp}/5 · 🍖 ${S.food}/5`}
 function closeP(){S.cTarget=0;clearTimeout(S.cTimer);S.paused=false;$('inv').style.display=$('cfg').style.display=$('chest').style.display='none'}
@@ -275,7 +275,7 @@ function wpnTarget(){const R=wpnReach(cur());if(!R||S.scene!=='farm')return null
  for(const c of CK.concat(LIVE)){const dx=c.x-P.x,dy=c.y-P.y,f=dx*d[0]+dy*d[1],l=Math.abs(dx*d[1]-dy*d[0]);if(f>0&&f<=R*T+16&&l<=T*.65&&f<bf){bf=f;best=c}}return best}
 // ===== árvores, tocos, pedras e matos: quebráveis com a ferramenta certa =====
 const BCOL={tree:['#2e7d32','#5aa84a','#8a5a2b'],stump:['#c9975a','#8a5a2b','#e0b87a'],rock:['#9aa0ab','#c8cdd6','#6f7580'],mato:['#3d9a4a','#79c96a','#2e7d32']};
-const brkAt=(x,y)=>BRK.find(b=>b.tl.some(t=>t[0]==x&&t[1]==y));
+const brkAt=(x,y)=>(S.scene==='mine'?MNB:BRK).find(b=>b.tl.some(t=>t[0]==x&&t[1]==y));
 function brkPower(bk,id){if(!id)return 0;if(id=='hoe')return bk.k=='mato'?1:0;if(typeof id!='string'||id[0]!='i')return 0;const r=+id.split(':')[1];
  if(bk.k=='rock')return r==13?1:0;
  if(bk.k=='mato')return[8,10,11,14,15,16].includes(r)?1:0;
@@ -283,21 +283,22 @@ function brkPower(bk,id){if(!id)return 0;if(id=='hoe')return bk.k=='mato'?1:0;if
 function brkDrops(bk){const R=Math.random,pick=a=>a[R()*a.length|0],o=[];
  if(bk.k=='tree'){o.push('i:4:0');if(R()<.6)o.push('i:4:0');if(R()<.35)o.push('i:4:1');if(R()<.4)o.push('i:17:9')}
  else if(bk.k=='stump'){o.push('i:4:0');if(R()<.5)o.push('i:4:1')}
- else if(bk.k=='rock'){const c=pick([0,1,1,2,2,2,3,4,5,6,7,8,9]);o.push('i:1:'+c);if(R()<.5)o.push('i:0:'+pick([0,1,1,2,2,3,4,5,6,7,8,9]))}
+ else if(bk.k=='rock'&&bk.mine){const c=bk.c;o.push('i:0:'+c);if(R()<.5)o.push('i:0:'+c);if(R()<.4)o.push('i:1:'+c)}
+  else if(bk.k=='rock'){const c=pick([0,1,1,2,2,2,3,4,5,6,7,8,9]);o.push('i:1:'+c);if(R()<.5)o.push('i:0:'+pick([0,1,1,2,2,3,4,5,6,7,8,9]))}
  else{o.push(R()<.7?'i:6:9':'i:17:5');if(R()<.3)o.push('i:6:9')}
  return o}
 function brkBreak(bk){const cx=(bk.tl[0][0]+bk.tl.length/2)*T,cy=(bk.tl[0][1]+.5)*T;
- BRK.splice(BRK.indexOf(bk),1);if(bk.o){const i=OBJ.indexOf(bk.o);if(i>=0)OBJ.splice(i,1)}if(bk.d){const i=DECO.indexOf(bk.d);if(i>=0)DECO.splice(i,1)}
- for(const t of bk.tl)solid[t[1]][t[0]]=0;
- burst(cx,cy-10,BCOL[bk.k],bk.k=='tree'?30:20,50);
- const ids=brkDrops(bk);ids.forEach((id,n)=>{const a=(n/ids.length)*6.283+Math.random(),x=cx+Math.cos(a)*16,y=cy+4+Math.sin(a)*9;GND.push({id,x:gfree(x,y)?x:cx,y:gfree(x,y)?y:cy,sc:'farm',cd:.6})})}
+ {const BA=bk.mine?MNB:BRK,bi=BA.indexOf(bk);if(bi>=0)BA.splice(bi,1)}if(bk.o){const i=OBJ.indexOf(bk.o);if(i>=0)OBJ.splice(i,1)}if(bk.d){const i=DECO.indexOf(bk.d);if(i>=0)DECO.splice(i,1)}
+ for(const t of bk.tl)(bk.mine?MNS:solid)[t[1]][t[0]]=0;
+ burst(cx,cy-10,bcol(bk),bk.k=='tree'?30:20,50);
+ const ids=brkDrops(bk);ids.forEach((id,n)=>{const a=(n/ids.length)*6.283+Math.random(),x=cx+Math.cos(a)*16,y=cy+4+Math.sin(a)*9;{const gf=bk.mine?ok(x,y):gfree(x,y);GND.push({id,x:gf?x:cx,y:gf?y:cy,sc:bk.mine?'mine':'farm',cd:.6})}})}
 function brkTry(bk,id){const pw=brkPower(bk,id);
  if(!pw){const r=id&&typeof id=='string'&&id[0]=='i'?+id.split(':')[1]:0;
   if(r>=8&&r<=16){toast(bk.k=='rock'?'⛏️ Precisa de uma picareta':bk.k=='mato'?'🌿 Use machado, pá ou espada':'🪓 Precisa de um machado');return true}
   return false}
  const now=performance.now();if(now<(P.bkcd||0))return true;P.bkcd=now+260;
  bk.hp-=pw;bk.shk=.28;if(bk.d)bk.d.shk=bk.shk;
- const cx=(bk.tl[0][0]+bk.tl.length/2)*T,cy=(bk.tl[0][1]+.5)*T;burst(cx,cy-8,BCOL[bk.k],6,28);
+ const cx=(bk.tl[0][0]+bk.tl.length/2)*T,cy=(bk.tl[0][1]+.5)*T;burst(cx,cy-8,bcol(bk),6,28);
  if(bk.hp<=0)brkBreak(bk);return true}
 const DROPS={chicken:['i:5:9','i:18:0'],sheep:['i:5:9','i:17:5'],cow:['i:5:9','i:4:2']},HPK={chicken:2,sheep:3,cow:4},PCOL={chicken:['#fff','#f2d9a0','#e8a33c'],sheep:['#fff','#e8e8e8','#cfcfcf'],cow:['#fff','#6b4a2f','#2b2b2b']};
 const PT=[],DYING=[],DEAD=[];
@@ -309,7 +310,7 @@ function wpnHit(c,wid){wid=wid||cur();const k=c.k||'chicken';if(c.mhp==null)c.mh
  toast('💥 '+itInfo(wid).n+' ('+c.hp+'/'+c.mhp+' ❤️)')}
 function wpnKill(c){const k=c.k||'chicken';let i=CK.indexOf(c);if(i>=0)CK.splice(i,1);else{i=LIVE.indexOf(c);if(i>=0)LIVE.splice(i,1)}
  DEAD.push({k,x:c.x,y:c.y});c.dead=.6;c.w=1;c.red=1;c.hb=0;DYING.push(c);burst(c.x,c.y-14,PCOL[k].concat(['#ff4040']),26,45)}
-function updFx(dt){updArr(dt);for(const b of BRK)if(b.shk>0){b.shk-=dt;if(b.d)b.d.shk=b.shk}
+function updFx(dt){updArr(dt);for(const b of BRK.concat(MNB))if(b.shk>0){b.shk-=dt;if(b.d)b.d.shk=b.shk}
 for(let i=PT.length-1;i>=0;i--){const p=PT[i];p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=110*dt;p.vx*=.98;p.l-=dt;if(p.l<=0)PT.splice(i,1)}
  for(let i=DYING.length-1;i>=0;i--){const d=DYING[i];d.f+=dt;d.dead-=dt;if(d.dead<=0){DYING.splice(i,1);const ids=DROPS[d.k||'chicken'];ids.forEach((id,n)=>{const a=(n/ids.length)*6.283+Math.random(),x=d.x+Math.cos(a)*14,y=d.y+Math.sin(a)*8;GND.push({id,x:gfree(x,y)?x:d.x,y:gfree(x,y)?y:d.y,sc:'farm',cd:.7})});burst(d.x,d.y-8,['#fff6a0','#ffffff','#ffd84a'],12,25)}}}
 function drawFx(){drawArr();for(const d of DYING){g.globalAlpha=Math.max(0,d.dead/.6);drawAni(d);g.globalAlpha=1}
@@ -373,6 +374,7 @@ function enter(){fade(()=>{S.scene='home';P.x=RW/2*T;P.y=(RH-2)*T+16;P.dir='up'}
 function leave(){fade(()=>{S.scene='farm';P.x=4*T;P.y=4*T+16;P.dir='down'})}
 function sleep(){fade(()=>{S.hp=5;nextDay();toast('Bom dia! Você dormiu bem.')})}
 function act(){if(S.paused||S.deco)return;
+ if(S.scene==='mine')return actMine();
  if(S.scene==='home'){const[hx,hy]=front(),id=cur();if(id=='melon')return eat();if(potKind(id))return drinkPot(id);if(foodVal(id))return eatItem(id);if(id=='hand')return pickHot(hx,hy);if(id&&id[1]==':')return useHot(id,hx,hy);if(DEC.some(i=>{const it=CAT[i.c];return(it.id=='cama'||it.id=='cama_lado')&&hx>=i.x&&hx<i.x+it.w&&hy>=i.y&&hy<i.y+it.h}))return sleep();return}
  {const[dx,dy]=front();if(P.dir=='up'&&dy>=2&&dy<=3&&(dx==3||dx==4))return enter()}
  {const[bx,by]=front();if(bx==CHEST.x&&by==CHEST.y)return openChest()}
@@ -397,7 +399,7 @@ function nextDay(){S.day++;while(DEAD.length){const d=DEAD.pop(),n={k:d.k,x:d.x,
  for(const k in EGG)if(CK.length<8&&Math.random()<.4){const[ex,ey]=k.split(',').map(Number);CK.push({x:ex*T+16,y:ey*T+20,tx:ex*T+16,ty:ey*T+20,w:1,d:1,f:0});delete EGG[k]}
  for(const c of CK)if(Math.random()<.7){const ex=c.x/T|0,ey=c.y/T|0,k=ex+','+ey;if(!EGG[k]&&!solid[ey][ex]&&!soil[ey][ex])EGG[k]=1}
 for(let y=0;y<H;y++)for(let x=0;x<W;x++)if(soil[y][x]==2)soil[y][x]=1;
- for(const k in crop){const c=crop[k];if(c.w&&c.s<(c.t?1:2))c.s++;c.w=false}S.t=0;hud()}
+ for(const k in crop){const c=crop[k];if(c.w&&c.s<(c.t?1:2))c.s++;c.w=false}S.t=0;mineGen();hud()}
 function hud(){
    $('hb').innerHTML=HOT.map((id,i)=>{const n=cnt(id);return `<div class="sl ${i==S.tool?'sel':''}" onpointerdown="selSlot(${i})">${icHTML(id)}${n!=null?`<b>${n}</b>`:''}</div>`}).join('')+`<div class="sl" onpointerdown="openP('inv')">⋯</div>`;
  const r=(e,n)=>[...Array(5)].map((_,i)=>`<i class="${i<n?'':'off'}" style="font-style:normal">${e}</i>`).join('');
@@ -671,7 +673,7 @@ cv.addEventListener('pointermove',e=>{if(S.deco&&(dDown||e.pointerType=='mouse')
 cv.addEventListener('pointerdown',e=>{if(S.deco){dDown=1;S.hov=dStart=dTile(e)}});
 cv.addEventListener('pointerup',e=>{if(S.deco&&dDown){dDown=0;S.hov=dTile(e);if(S.dsel>=0&&S.dtab!='casa'&&CAT[S.dsel].line&&dStart)dCommit(dStart,S.hov);else dTap(...S.hov);if(e.pointerType!='mouse')S.hov=null}});
 cv.addEventListener('pointercancel',()=>{dDown=0;S.hov=null});
-function ok(x,y){const h=S.scene==='home',w=h?RW:W,hh=h?RH:H,sd=h?hdyn:solid,r=6;for(const[ox,oy]of[[-r,-2],[r,-2],[-r,r],[r,r]]){const tx=(x+ox)/T|0,ty=(y+oy)/T|0;if(x+ox<0||y+oy<0||tx>=w||ty>=hh||sd[ty][tx])return false;if(!h){const qx=x+ox,qy=y+oy;if(qy>=96&&qy<128&&((qx>=74&&qx<112)||(qx>=144&&qx<184)))return false}}return true}
+function ok(x,y){const h=S.scene==='home',m=S.scene==='mine',w=h?RW:m?MNW:W,hh=h?RH:m?MNH:H,sd=h?hdyn:m?MNS:solid,r=6;for(const[ox,oy]of[[-r,-2],[r,-2],[-r,r],[r,r]]){const tx=(x+ox)/T|0,ty=(y+oy)/T|0;if(x+ox<0||y+oy<0||tx>=w||ty>=hh||sd[ty][tx])return false;if(!h&&!m){const qx=x+ox,qy=y+oy;if(qy>=96&&qy<128&&((qx>=74&&qx<112)||(qx>=144&&qx<184)))return false}}return true}
 function drawHome(){g.fillStyle='#1a120c';g.fillRect(0,0,VW,VH);
  g.save();{const v=homeView();g.translate(v.ox,v.oy);g.scale(v.z,v.z)}
  {const fl=FLOORS[FS]||FLOORS[0];for(let y=2;y<RH;y++)for(let x=0;x<RW;x++)floorTile(g,fl,x,y)}
@@ -699,7 +701,8 @@ function update(dt){
   const sp=90*dt,nx=P.x+dx*sp,ny=P.y+dy*sp;
   if(ok(nx,P.y))P.x=nx;if(ok(P.x,ny))P.y=ny;
   P.ft+=dt;if(P.ft>.12){P.ft=0;P.f=(P.f+1)%4}}else{P.ft+=dt;if(P.ft>.4){P.ft=0;P.f=(P.f+1)%4}}
- S.t+=dt;pickGround(dt);if(S.scene==='farm')chk(dt);if(S.t>=DAYLEN)nextDay();survive(dt);if(S.scene==='home'&&P.y>(RH-1)*T-6)leave();
+ S.t+=dt;pickGround(dt);if(S.scene==='farm')chk(dt);else if(S.scene==='mine')updFx(dt);if(S.t>=DAYLEN)nextDay();survive(dt);if(S.scene==='home'&&P.y>(RH-1)*T-6)leave();
+  if(!S.paused){if(S.scene==='mine'&&P.y>(MNH-1)*T-6)leaveMine();else if(S.scene==='farm'&&P.y<T+20&&(P.x/T|0)>=18&&(P.x/T|0)<=20)enterMine()}
  const dv=S.scene==='home'&&!S.deco?'block':'none';if($('dbtn').style.display!==dv)$('dbtn').style.display=dv;if(S.deco&&S.scene!=='home')setDeco(false);
  const mn=360+Math.floor(S.t/DAYLEN*120)*10,hh=Math.floor(mn/60)%24,ts=`${hh%12||12}:${String(mn%60).padStart(2,'0')} ${hh<12?'am':'pm'}`;if($('ct').textContent!==ts)$('ct').textContent=ts;
  const sh=near()?'flex':'none';if($('cb').style.display!==sh)$('cb').style.display=sh}
@@ -708,6 +711,7 @@ function drawPlayer(){const row=P.moving?ROW[P.dir]:(P.dir=='down'?ROW.idle:ROW[
  g.drawImage(img,f*32,row*32,32,32,Math.round(P.x-20),Math.round(P.y-32),40,40)}
 function draw(){
  if(S.scene==='home')return drawHome();
+ if(S.scene==='mine')return drawMine();
  g.fillStyle='#1a120c';g.fillRect(0,0,VW,VH);g.save();const cl=(p,len,vw)=>len<=vw?(len-vw)/2:Math.max(0,Math.min(len-vw,p-vw/2)),camX=cl(P.x,W*T,VW),camY=cl(P.y,H*T,VH);g.translate(-Math.round(camX),-Math.round(camY));
  if(GR)g.drawImage(GR,0,0);else{g.fillStyle='#6abe30';g.fillRect(0,0,W*T,H*T)}
  g.drawImage(BG,0,0);
@@ -728,6 +732,78 @@ function draw(){
  const p=S.t/DAYLEN,lp=(a,b,k)=>a.map((v,i)=>v+(b[i]-v)*k);
  const c=p<.55?null:p<.75?lp([255,255,255],[255,175,120],(p-.55)/.2):lp([255,175,120],[70,80,140],(p-.75)/.25);
  if(c){g.globalCompositeOperation='multiply';g.fillStyle=`rgb(${c.map(Math.round)})`;g.fillRect(0,0,VW,VH);g.globalCompositeOperation='source-over'}}
+
+// ===== mina de pedra (escada do morro) =====
+const MNW=22,MNH=15,MNS=[...Array(MNH)].map((_,y)=>[...Array(MNW)].map((_,x)=>(y<=1||x==0||x==MNW-1||y==MNH-1)?1:0)),MNB=[];
+for(let x=10;x<=12;x++)MNS[MNH-1][x]=0;
+// cores dos minérios (mesma ordem de MAT: Prata, Ferro, Bronze, Ouro, Jade, Diamante, Âmbar, Rubi, Ametista, Obsidiana)
+const MNC=[['#c0c6d0','#ffffff'],['#5d4a45','#b08e84'],['#b56b2e','#e8a060'],['#f2c230','#fff1a0'],['#2fbf7a','#9af0c4'],['#6fe0f5','#e6fdff'],['#e08a1e','#ffd27a'],['#d6283c','#ff8a96'],['#9b4fd6','#d9a8ff'],['#2a2433','#7a6f94']];
+const MNWT=[5,5,4,3,2,1,2,1,1,1];
+function bcol(bk){return bk.mine?BCOL.rock.concat(MNC[bk.c]):BCOL[bk.k]}
+const MNG=document.createElement('canvas');MNG.width=MNW*T;MNG.height=MNH*T;
+(function(){const b=MNG.getContext('2d');let s=11;const R=()=>(s=(s*16807)%2147483647)/2147483647;
+ for(let y=0;y<MNH;y++)for(let x=0;x<MNW;x++){const X=x*T,Y=y*T;
+  if(MNS[y][x]){
+   b.fillStyle='#4a4d59';b.fillRect(X,Y,T,T);
+   b.fillStyle='#3a3c47';b.fillRect(X,Y+15,T,2);b.fillRect(X,Y+30,T,2);
+   const j=(x+y)%2?10:22;b.fillRect(X+j,Y,2,15);b.fillRect(X+32-j,Y+17,2,13);
+   b.fillStyle='#5f6372';b.fillRect(X,Y,T,2);b.fillRect(X,Y+17,T,1);
+   for(let i=0;i<3;i++){b.fillStyle=R()<.5?'#585c6a':'#3f414d';b.fillRect(X+(R()*28|0),Y+(R()*28|0),3,2)}
+  }else{
+   const q=(x+y)%2;b.fillStyle=q?'#868a94':'#7e828c';b.fillRect(X,Y,T,T);
+   b.fillStyle='#6f737d';b.fillRect(X,Y+T-1,T,1);b.fillRect(X+T-1,Y,1,T);
+   for(let i=0;i<4;i++){b.fillStyle=R()<.5?'#9a9ea8':'#6a6e78';b.fillRect(X+(R()*28|0),Y+(R()*28|0),2+(R()*2|0),2)}
+   if(R()<.1){b.fillStyle='#5d616b';const cx=X+6+(R()*10|0),cy=Y+8+(R()*10|0);b.fillRect(cx,cy,8,1);b.fillRect(cx+7,cy+1,1,6)}
+  }}
+ b.fillStyle='rgba(0,0,0,.25)';b.fillRect(T,2*T,(MNW-2)*T,5);b.fillRect(T,2*T,4,(MNH-3)*T);b.fillRect((MNW-1)*T-4,2*T,4,(MNH-3)*T);
+ // escada de saída (volta para a fazenda)
+ const ex=10*T,ey=(MNH-1)*T;b.fillStyle='#17110d';b.fillRect(ex,ey,3*T,T);
+ for(let k=0;k<4;k++){const y2=ey+k*8;b.fillStyle='#6b3410';b.fillRect(ex+3,y2+5,3*T-6,3);b.fillStyle='#b9803f';b.fillRect(ex+3,y2+1,3*T-6,4);b.fillStyle='#d9a05b';b.fillRect(ex+3,y2,3*T-6,1)}
+})();
+// coloca pedras com minério (renascem a cada dia)
+function mineGen(){
+ const spots=[];
+ for(let y=3;y<MNH-2;y++)for(let x=2;x<MNW-2;x++){
+  if(MNS[y][x])continue;
+  if(x>=8&&x<=13&&y>=MNH-4)continue;
+  if(S.scene==='mine'&&Math.hypot((x+.5)*T-P.x,(y+.5)*T-P.y)<T*1.8)continue;
+  spots.push([x,y])}
+ for(let i=spots.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[spots[i],spots[j]]=[spots[j],spots[i]]}
+ const tw=MNWT.reduce((a,b)=>a+b,0);let n=MNB.length;
+ for(const[x,y]of spots){if(n>=32)break;
+  let k=0;for(const[a,b]of[[1,0],[-1,0],[0,1],[0,-1]]){const X=x+a,Y=y+b;if(X>=1&&X<=MNW-2&&Y>=2&&Y<=MNH-2&&MNS[Y][X])k++}
+  if(k>1)continue;
+  let r=Math.random()*tw,c=0;while(c<9&&r>=MNWT[c]){r-=MNWT[c];c++}
+  MNB.push({k:'rock',mine:1,c,tl:[[x,y]],hp:3,mhp:3,shk:0});MNS[y][x]=1;n++}}
+mineGen();
+function enterMine(){fade(()=>{S.scene='mine';P.x=MNW/2*T+16;P.y=(MNH-2)*T+16;P.dir='up';TG=null;
+ const pk=[...HOT,...MOCH].some(i=>typeof i=='string'&&i.startsWith('i:13:'));
+ setTimeout(()=>toast(pk?'⛏️ Mina de pedra: quebre as pedras para pegar minérios!':'⛏️ Mina de pedra: leve uma picareta para quebrar as pedras'),600)})}
+function leaveMine(){fade(()=>{S.scene='farm';P.x=19.5*T;P.y=2*T+16;P.dir='down';TG=null})}
+// alvo inteligente: a pedra à frente (ou ao lado) que a ferramenta atual consegue quebrar
+function mineFront(){const pf=plainFront(),id=cur(),d=DIR[P.dir],pp=[-d[1],d[0]],cand=[];
+ for(const[dx,dy,pen]of[[0,0,0],[pp[0],pp[1],0],[-pp[0],-pp[1],0],[d[0],d[1],14]]){const x=pf[0]+dx,y=pf[1]+dy,bk=brkAt(x,y);if(!bk||!brkPower(bk,id))continue;cand.push([Math.hypot(x*T+16-P.x,y*T+16-P.y)+pen,x,y])}
+ if(!cand.length)return pf;cand.sort((a,b)=>a[0]-b[0]);return[cand[0][1],cand[0][2]]}
+function actMine(){const id=cur();if(id=='melon')return eat();if(potKind(id))return drinkPot(id);if(foodVal(id))return eatItem(id);
+ const[bx,by]=mineFront(),bk=brkAt(bx,by);if(bk&&brkTry(bk,id))return;toast('⛏️ Use uma picareta nas pedras')}
+function drawMRock(b){const[x,y]=b.tl[0],sx=b.shk>0?Math.round(Math.sin(b.shk*70)*2):0,X=x*T+sx,Y=y*T;
+ g.fillStyle='rgba(0,0,0,.2)';g.beginPath();g.ellipse(x*T+16,(y+1)*T-3,13,4,0,0,7);g.fill();
+ if(TS.complete&&TS.naturalWidth)g.drawImage(TS,0,176,16,16,X,Y,T,T);else{g.fillStyle='#9aa0ab';g.fillRect(X+2,Y+2,28,28)}
+ const cs=MNC[b.c];
+ for(const[a,c,w]of[[7,9,6],[17,7,5],[12,17,6],[21,17,5],[6,21,4]]){g.fillStyle=cs[0];g.fillRect(X+a,Y+c,w,w-1);g.fillStyle=cs[1];g.fillRect(X+a,Y+c,w-2,1);g.fillRect(X+a,Y+c,1,w-2)}}
+function drawMine(){
+ g.fillStyle='#0d0b10';g.fillRect(0,0,VW,VH);g.save();
+ const cl=(p,len,vw)=>len<=vw?(len-vw)/2:Math.max(0,Math.min(len-vw,p-vw/2)),camX=Math.round(cl(P.x,MNW*T,VW)),camY=Math.round(cl(P.y,MNH*T,VH));
+ g.translate(-camX,-camY);g.drawImage(MNG,0,0);
+ const tm=performance.now()/1000;
+ for(const tx of[9.5,13.5]){const fx=tx*T,fy=(MNH-1)*T+12,fl=Math.sin(tm*13+tx)*1.5;
+  g.fillStyle='rgba(255,170,60,.13)';g.beginPath();g.arc(fx,fy,34+fl*2,0,7);g.fill();
+  g.fillStyle='#6b3410';g.fillRect(fx-2,fy,4,12);g.fillStyle='#ff8a1e';g.fillRect(fx-3,fy-6+fl/2,6,7);g.fillStyle='#ffd84a';g.fillRect(fx-1,fy-4+fl/2,2,4)}
+ {const[fx,fy]=mineFront(),tb=brkAt(fx,fy);if(tb&&brkPower(tb,cur())){const pu=Math.sin(tm*8)*.5+.5;g.fillStyle=`rgba(255,230,90,${.12+.12*pu})`;g.fillRect(fx*T,fy*T,T,T);g.strokeStyle=`rgba(255,236,120,${.8+.2*pu})`;g.lineWidth=2;g.strokeRect(fx*T+1,fy*T+1,T-2,T-2)}}
+ for(const o of MNB.map(b=>({y:(b.tl[0][1]+1)*T,f:()=>drawMRock(b)})).concat(GND.filter(o=>o.sc==='mine').map(o=>({y:o.y,f:()=>drawGround(o)})),[{y:P.y+9,f:drawPlayer}]).sort((a,b)=>a.y-b.y))o.f();
+ for(const p of PT){const a=Math.max(0,Math.min(1,p.l/p.m)),sz=p.s*(.4+.6*a);g.globalAlpha=a;g.fillStyle=p.c;g.fillRect(Math.round(p.x-sz/2),Math.round(p.y-sz/2),sz,sz)}g.globalAlpha=1;
+ g.restore();
+ const px=P.x-camX,py=P.y-camY-10,gr=g.createRadialGradient(px,py,120,px,py,320);gr.addColorStop(0,'rgba(5,4,12,0)');gr.addColorStop(1,'rgba(5,4,12,.5)');g.fillStyle=gr;g.fillRect(0,0,VW,VH)}
 addEventListener('keydown',e=>{const k=e.key.toLowerCase();keys[k]=1;
  if(k==='e'&&$('chest').style.display==='flex'){closeP();return}
  if(k>='1'&&k<='6')selSlot(+k-1);
