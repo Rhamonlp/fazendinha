@@ -58,6 +58,16 @@ button:active{background:#c08a45}#bA{box-shadow:none}
 .cs b{position:absolute;right:3px;bottom:0;font-size:13px;font-weight:600;color:#3b1f08}
 #cmsg{margin-top:8px;font-size:13px;min-height:1.3em;text-align:center}
 #chest .row{justify-content:space-between;align-items:center}
+
+#dbar{top:calc(8px + env(safe-area-inset-top,0px));box-sizing:border-box;width:calc(var(--sl)*4 + 23px);max-height:calc(100% - 16px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
+#dbar.full{height:calc(100% - 16px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
+#dbar.min{width:auto;height:auto}
+#dbar .dg{grid-template-columns:repeat(4,var(--sl));flex:1;align-content:start}
+#dbar .dt div{font-size:calc(var(--sl)*.4)}
+#dbar .dn{font-size:12px;color:#fff7e0;text-align:center;min-height:1.3em;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#dbar .dr button{flex:1;padding:4px 2px;font-size:14px}
+#dbar .dr .ok{flex:2.4;background:#9bd36f;box-shadow:inset 0 -3px #6fa84a}
+body.deco #info,body.deco #menu{display:none}
 </style></head><body>
 <div id="stage">
 <canvas id="c" width="512" height="288"></canvas>
@@ -266,6 +276,7 @@ let hsolid;function mkSolid(){hsolid=[...Array(RH)].map((_,y)=>[...Array(RW)].ma
 function saveHouse(){try{localStorage.setItem('fz_house',JSON.stringify({w:RW,h:RH,ws:WS,fs:FS}))}catch(e){}}
 const FUR=new Image();FUR.src='data:image/png;base64,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';const FX=620,FY=508;
 function spD(x,y){const it=this,dw=it.r[2]*2,dh=it.r[3]*2;g.drawImage(FUR,it.r[0]-FX,it.r[1]-FY,it.r[2],it.r[3],Math.round(x+(it.w*T-dw)/2),Math.round(y+(it.s?it.h*T-dh:(it.h*T-dh)/2)),dw,dh)}
+const F=(x,y)=>{const r=(c,a,b,w,h)=>{g.fillStyle=c;g.fillRect(x+a,y+b,w,h)};r.o=(c,a,b,k)=>{g.fillStyle=c;g.beginPath();g.arc(x+a,y+b,k,0,7);g.fill()};return r};
 const CAT=[
 {id:'cama',n:'Cama',w:1,h:2,s:1,r:[624,535,16,25],d:spD},
 {id:'cama_lado',n:'Cama de lado',w:2,h:1,s:1,r:[640,539,19,21],d:spD},
@@ -288,10 +299,47 @@ const CAT=[
 {id:'pote',n:'Pote',w:1,h:1,s:1,r:[771,517,10,11],d:spD},
 {id:'girassol',n:'Girassol',w:1,h:1,s:1,r:[819,512,12,15],d:spD},
 {id:'abajur',n:'Abajur',ic:'💡',w:1,h:1,s:1,d:(x,y)=>{g.fillStyle='#6b3b1a';g.fillRect(x+14,y+16,4,12);g.fillRect(x+10,y+26,12,3);g.fillStyle='#ffd36b';g.fillRect(x+9,y+5,14,12)}},
-{id:'quadro',n:'Quadro',ic:'🖼️',w:1,h:1,s:0,wall:1,d:(x,y)=>{g.fillStyle='#6b3b1a';g.fillRect(x+4,y+6,24,20);g.fillStyle='#f0d890';g.fillRect(x+7,y+9,18,14);g.fillStyle='#e0703a';g.fillRect(x+10,y+16,12,7);g.fillStyle='#7fbf5a';g.fillRect(x+7,y+19,18,4)}}
+{id:'quadro',n:'Quadro',ic:'🖼️',w:1,h:1,s:0,wall:1,d:(x,y)=>{g.fillStyle='#6b3b1a';g.fillRect(x+4,y+6,24,20);g.fillStyle='#f0d890';g.fillRect(x+7,y+9,18,14);g.fillStyle='#e0703a';g.fillRect(x+10,y+16,12,7);g.fillStyle='#7fbf5a';g.fillRect(x+7,y+19,18,4)}},
+{id:'girassol2',n:'Girassol no vaso',t:'dec',w:1,h:1,s:1,r:[835,511,12,17],d:spD},
+{id:'balde',n:'Balde',t:'dec',w:1,h:1,s:1,r:[789,522,7,6],d:spD},
+{id:'tigela',n:'Tigela',t:'dec',w:1,h:1,s:1,r:[803,522,10,6],d:spD},
+{id:'regador',n:'Regador',t:'dec',w:1,h:1,s:1,r:[818,536,7,8],d:spD},
+{id:'livro',n:'Livro verde',t:'dec',w:1,h:1,s:1,r:[834,536,7,8],d:spD},
+{id:'livro2',n:'Livro laranja',t:'dec',w:1,h:1,s:1,r:[841,550,5,9],d:spD},
+{id:'lampiao',n:'Lampião',t:'dec',w:1,h:1,s:1,r:[824,551,5,9],d:spD},
+{id:'planta',n:'Planta',t:'dec',w:1,h:1,s:1,d:(x,y)=>{const r=F(x,y);r('#0003',7,28,18,4);r('#b5651d',10,20,12,10);r('#8a4a14',9,19,14,3);r('#3f9b3e',15,8,3,12);r('#4fbf4e',8,10,8,6);r('#4fbf4e',17,6,8,6);r('#2f7d32',12,3,7,7)}},
+{id:'cacto',n:'Cacto',t:'dec',w:1,h:1,s:1,d:(x,y)=>{const r=F(x,y);r('#0003',8,28,16,4);r('#c4703a',10,22,12,8);r('#4fa84e',13,6,6,17);r('#4fa84e',8,13,6,3);r('#4fa84e',8,9,3,7);r('#4fa84e',18,15,6,3);r('#4fa84e',21,11,3,7);r('#ffd1dc',15,4,3,2)}},
+{id:'flores',n:'Vaso de flores',t:'dec',w:1,h:1,s:1,d:(x,y)=>{const r=F(x,y);r('#0003',9,28,14,4);r('#4a7ac8',11,20,10,9);r('#3f9b3e',15,12,2,9);r.o('#ff6f9a',12,12,3);r.o('#ffd84a',20,10,3);r.o('#fff',16,7,3);r.o('#b58cff',16,13,3)}},
+{id:'vela',n:'Vela',t:'dec',w:1,h:1,s:1,d:(x,y)=>{const r=F(x,y),f=Math.sin(performance.now()/120)>0?1:0;r('#0003',9,27,14,4);r('#f0e6c8',14,16,5,11);r('#ffb02e',15,10-f,3,5);r('#fff3b0',16,12-f,1,3)}},
+{id:'sofa',n:'Sofá',w:2,h:1,s:1,d:(x,y)=>{const r=F(x,y);r('#0003',3,27,58,5);r('#7a2a2a',2,5,60,23);r('#a83a3a',6,12,52,14);r('#c04a4a',6,12,25,12);r('#c04a4a',33,12,25,12);r('#7a2a2a',0,10,7,18);r('#7a2a2a',57,10,7,18);r('#4a1818',5,27,4,4);r('#4a1818',55,27,4,4)}},
+{id:'poltrona',n:'Poltrona',w:1,h:1,s:1,d:(x,y)=>{const r=F(x,y);r('#0003',3,27,26,5);r('#2f6f6f',4,5,24,23);r('#4a9a9a',8,13,16,13);r('#2f6f6f',2,11,6,17);r('#2f6f6f',24,11,6,17)}},
+{id:'pufe',n:'Pufe',w:1,h:1,s:1,d:(x,y)=>{const r=F(x,y);r('#0003',5,27,22,4);r.o('#d9892a',16,21,10);r.o('#f0a844',16,19,8)}},
+{id:'lareira',n:'Lareira',w:2,h:1,s:1,d:(x,y)=>{const r=F(x,y),f=Math.sin(performance.now()/110)*2|0;r('#0003',2,28,60,4);r('#8a8f9a',0,-8,64,38);r('#aab0ba',0,-8,64,4);r('#3a2a22',10,2,44,28);r('#ff7a1c',22,14-f,20,16+f);r('#ffd36b',27,18-f,10,12+f);r('#fff3b0',30,23,4,7);r('#5a3a22',14,28,36,3)}},
+{id:'geladeira',n:'Geladeira',w:1,h:1,s:1,d:(x,y)=>{const r=F(x,y);r('#0003',3,28,26,4);r('#d9e2ea',4,-18,24,46);r('#b6c3cf',4,-18,24,3);r('#8c9aa8',4,7,24,2);r('#8c9aa8',22,-8,2,8);r('#8c9aa8',22,12,2,8)}},
+{id:'fogao',n:'Fogão',w:1,h:1,s:1,d:(x,y)=>{const r=F(x,y);r('#0003',3,28,26,4);r('#cfd6dc',4,8,24,20);r('#4a4f57',6,10,20,4);r('#2a2d33',8,11,5,2);r('#2a2d33',19,11,5,2);r('#2a2d33',8,17,16,9);r('#9aa3ab',10,16,12,2)}},
+{id:'balcao',n:'Balcão com pia',w:2,h:1,s:1,d:(x,y)=>{const r=F(x,y);r('#0003',2,28,60,4);r('#b9824c',2,10,60,18);r('#d9a05b',0,6,64,6);r('#8f5c30',4,14,26,12);r('#8f5c30',34,14,26,12);r('#9aa3ab',38,2,18,5);r('#6f7580',46,-3,3,6)}},
+{id:'tv',n:'Televisão',w:1,h:1,s:1,d:(x,y)=>{const r=F(x,y),k=Math.sin(performance.now()/700)>0;r('#0003',3,28,26,4);r('#5a3a22',4,20,24,9);r('#222',4,1,24,19);r(k?'#3a6a8a':'#4a7a9a',6,3,20,15);r('#8ac8e8',8,5,7,4)}},
+{id:'luminaria',n:'Luminária de chão',w:1,h:1,s:1,d:(x,y)=>{const r=F(x,y);r('#0003',9,28,14,4);r('#5a3a22',15,-6,2,34);r('#ffd36b',9,-16,14,12);r('#fff3b0',12,-13,8,6)}},
+{id:'tapete_azul',n:'Tapete azul',w:2,h:2,s:0,d:(x,y)=>{const r=F(x,y);r('#2f4a7a',2,2,60,60);r('#4a6ea8',5,5,54,54);r('#f1e8d2',9,9,46,46);r('#4a6ea8',12,12,40,40);r('#2f4a7a',24,24,16,16);r('#f1e8d2',28,28,8,8)}},
+{id:'tapete_redondo',n:'Tapete redondo',w:2,h:2,s:0,d:(x,y)=>{const r=F(x,y);r.o('#d9a05b',32,32,30);r.o('#8a4a2a',32,32,25);r.o('#f6dba8',32,32,17);r.o('#d9382c',32,32,8)}},
+{id:'tapete_verde',n:'Tapete verde',w:3,h:2,s:0,d:(x,y)=>{const r=F(x,y);r('#2f6a3a',2,2,92,60);r('#4fa060',6,6,84,52);r('#d9f0c8',10,10,76,44);for(let i=0;i<4;i++)r('#4fa060',16+i*20,14,10,36)}},
+{id:'janela',n:'Janela',t:'par',w:1,h:2,s:0,wall:1,d:(x,y)=>{const r=F(x,y);r('#5a3a22',3,5,26,48);r('#8fd0f4',6,8,20,42);r('#dff3ff',8,12,8,3);r('#5a3a22',15,8,2,42);r('#5a3a22',6,27,20,2);r('#7a5030',1,50,30,4)}},
+{id:'janela_g',n:'Janela grande',w:2,h:2,s:0,wall:1,d:(x,y)=>{const r=F(x,y);r('#5a3a22',4,4,56,50);r('#8fd0f4',8,8,22,42);r('#8fd0f4',34,8,22,42);r('#dff3ff',10,12,10,3);r('#dff3ff',38,20,12,3);r('#7a5030',2,50,60,5)}},
+{id:'relogio',n:'Relógio',w:1,h:1,s:0,wall:1,d:(x,y)=>{const r=F(x,y),m=360+Math.floor(S.t/DAYLEN*120)*10,a=(m%60)/60*6.283-1.571,b=(m/60%12)/12*6.283-1.571;r.o('#5a3a22',16,16,12);r.o('#f6ecd2',16,16,10);g.strokeStyle='#3b1f08';g.lineWidth=2;g.beginPath();g.moveTo(x+16,y+16);g.lineTo(x+16+Math.cos(a)*8,y+16+Math.sin(a)*8);g.moveTo(x+16,y+16);g.lineTo(x+16+Math.cos(b)*5,y+16+Math.sin(b)*5);g.stroke()}},
+{id:'espelho',n:'Espelho',w:1,h:2,s:0,wall:1,d:(x,y)=>{const r=F(x,y);r('#8a5a2a',5,4,22,50);r('#bfe6ee',8,7,16,44);r('#e8fbff',10,10,4,14)}},
+{id:'quadro_p',n:'Quadro paisagem',w:2,h:1,s:0,wall:1,d:(x,y)=>{const r=F(x,y);r('#6b3b1a',6,6,52,22);r('#9fd4f2',9,9,46,16);r('#7fbf5a',9,19,46,6);r.o('#ffd36b',44,15,4)}},
+{id:'bandeirinhas',n:'Bandeirinhas',w:2,h:1,s:0,wall:1,d:(x,y)=>{g.fillStyle='#6b3b1a';g.fillRect(x+2,y+6,60,2);['#e0453a','#ffd36b','#5aa0e0','#7fbf5a','#d070d0','#ff9a3a'].forEach((c,i)=>{g.fillStyle=c;g.beginPath();g.moveTo(x+4+i*10,y+8);g.lineTo(x+14+i*10,y+8);g.lineTo(x+9+i*10,y+20);g.fill()})}},
+{id:'prateleira_p',n:'Prateleira de parede',w:2,h:1,s:0,wall:1,d:(x,y)=>{const r=F(x,y);r('#7a5030',2,20,60,5);r('#5a3a22',6,25,4,5);r('#5a3a22',54,25,4,5);r('#c4703a',10,12,8,8);r('#4fbf4e',11,6,6,7);r('#d9382c',32,8,5,12);r('#2f6fb0',37,10,5,10);r('#ffd36b',42,7,5,13)}},
+{id:'luzinhas',n:'Luzinhas',w:2,h:1,s:0,wall:1,d:(x,y)=>{const r=F(x,y),t=performance.now()/500|0;r('#4a3a2a',2,8,60,1);for(let i=0;i<8;i++)r((i+t)%3?'#ffd36b':'#fff7c0',4+i*8,9+(i%2)*3,4,4)}}
 ].map(it=>{if(it.d===spD){const o=it;it={...o,d:(x,y)=>spD.call(o,x,y)}}return it});
 const CID=Object.fromEntries(CAT.map((it,i)=>[it.id,i]));
-function thumb(it){if(it.ic||!FUR.complete||!FUR.naturalWidth)return'';if(it.th)return it.th;const c=document.createElement('canvas');c.width=it.r[2];c.height=it.r[3];c.getContext('2d').drawImage(FUR,it.r[0]-FX,it.r[1]-FY,it.r[2],it.r[3],0,0,it.r[2],it.r[3]);return it.th=c.toDataURL()}
+CAT.forEach(it=>{if(['vaso','jarro','pote','girassol','abajur'].includes(it.id))it.t='dec'});
+let DH=[];
+function thumb(it){if(it.ic)return'';if(it.th)return it.th;
+ if(!it.r){if(cv.width<130||cv.height<150)return'';const w=it.w*T+16,h=it.h*T+48;g.save();g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,w,h);it.d(8,40);const id=g.getImageData(0,0,w,h),dd=id.data;let x0=w,y0=h,x1=-1,y1=-1;
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(dd[(y*w+x)*4+3]>40){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}
+  g.restore();if(x1<0)return'';const c=document.createElement('canvas');c.width=x1-x0+1;c.height=y1-y0+1;c.getContext('2d').putImageData(id,-x0,-y0);it.tw=c.width;it.th2=c.height;return it.th=c.toDataURL()}
+ if(!FUR.complete||!FUR.naturalWidth)return'';const c=document.createElement('canvas');c.width=it.r[2];c.height=it.r[3];c.getContext('2d').drawImage(FUR,it.r[0]-FX,it.r[1]-FY,it.r[2],it.r[3],0,0,it.r[2],it.r[3]);return it.th=c.toDataURL()}
 FUR.onload=()=>{if(S.deco)renderDeco()};
 const OLDC=['banquinho','banco','girassol','estante_livros','abajur','tapete','quadro'];
 let DEC=[];try{let raw=JSON.parse(localStorage.getItem('fz_decor2')||'null');
@@ -302,7 +350,7 @@ function dsave(){rebuild();saveHouse();try{localStorage.setItem('fz_decor2',JSON
 const hit=(a,b)=>a.x<b.x+b.w&&b.x<a.x+a.w&&a.y<b.y+b.h&&b.y<a.y+a.h;
 function canPlace(c,x,y){const it=CAT[c],r={x,y,w:it.w,h:it.h};
  if(x<0||y<0||x+it.w>RW||y+it.h>RH)return false;
- if(it.wall){if(y>1)return false}
+ if(it.wall){if(y<0||y+it.h>2)return false}
  else{if(y<2||y+it.h>RH-1)return false;for(let a=0;a<it.w;a++)for(let b=0;b<it.h;b++)if(hsolid[y+b][x+a])return false;
   if(it.s){if(hit(r,{x:RW/2-1,y:RH-2,w:2,h:1})||hit(r,{x:P.x/T|0,y:P.y/T|0,w:1,h:1}))return false}}
  for(const i of DEC){const o=CAT[i.c];if(!!o.wall!==!!it.wall)continue;if(o.s==it.s&&hit(r,{x:i.x,y:i.y,w:o.w,h:o.h}))return false}
@@ -314,14 +362,26 @@ const WALLS=[
 {n:'Rosa',b:'#f0c4cc',l:'#e3aab5',r:'#a8566a',p:'v'},
 {n:'Menta',b:'#bfe0c4',l:'#a7cfae',r:'#5f8a66',p:'v'},
 {n:'Madeira',b:'#b9824c',l:'#8f5c30',r:'#5c3a1c',p:'v'},
-{n:'Tijolo',b:'#b5593d',l:'#8a3a28',r:'#5a2a1c',p:'b'}];
+{n:'Tijolo',b:'#b5593d',l:'#8a3a28',r:'#5a2a1c',p:'b'},
+{n:'Lilás',b:'#d8c8ee',l:'#c3afe0',r:'#7a5aa8',p:'v'},
+{n:'Amarelo',b:'#f3e3a0',l:'#e6d083',r:'#a8883a',p:'v'},
+{n:'Cinza',b:'#c5c8cf',l:'#b0b4bc',r:'#5c606a',p:'v'},
+{n:'Pêssego',b:'#f4cfae',l:'#e8b78e',r:'#a8663a',p:'v'},
+{n:'Noite',b:'#3a4a7a',l:'#2f3d68',r:'#1c2540',p:'v'},
+{n:'Tijolo claro',b:'#d9a07a',l:'#b87c58',r:'#7a4a30',p:'b'}];
 const FLOORS=[
 {n:'Madeira',p:'w',a:'#c98f55',b:'#c08850',l:'#a8703c'},
 {n:'Madeira escura',p:'w',a:'#8a5a3a',b:'#815233',l:'#5c3a22'},
 {n:'Xadrez',p:'c',a:'#f1e8d2',b:'#b04a3c',l:'#8c3a2e'},
 {n:'Pedra',p:'s',a:'#9aa0ab',b:'#8d939e',l:'#6f7580'},
 {n:'Azulejo',p:'t',a:'#7fb2d6',b:'#6aa0c8',l:'#4a7aa0'},
-{n:'Carpete',p:'r',a:'#6d8f5a',b:'#648552',l:'#4a6a3c'}];
+{n:'Carpete',p:'r',a:'#6d8f5a',b:'#648552',l:'#4a6a3c'},
+{n:'Madeira clara',p:'w',a:'#e0b887',b:'#d9ae7c',l:'#b88a58'},
+{n:'Preto e branco',p:'c',a:'#f4f4f4',b:'#34343c',l:'#1c1c20'},
+{n:'Azulejo rosa',p:'t',a:'#f0a8b8',b:'#e592a6',l:'#b86078'},
+{n:'Concreto',p:'s',a:'#b4b4b4',b:'#a8a8a8',l:'#848484'},
+{n:'Carpete azul',p:'r',a:'#5a7aa8',b:'#506e9a',l:'#3c5478'},
+{n:'Carpete vinho',p:'r',a:'#8a3a4a',b:'#7e3242',l:'#5a2230'}];
 function wallDraw(c,st,w){c.fillStyle=st.b;c.fillRect(0,0,w,2*T);
  if(st.p=='v'){c.fillStyle=st.l;for(let x=0;x<w;x+=16)c.fillRect(x,0,2,2*T-8)}
  else{for(let y=0;y<2*T-8;y+=8){const o=(y/8)%2?8:0;c.fillStyle=st.l;c.fillRect(0,y+7,w,1);for(let x=-o;x<w;x+=16)c.fillRect(x+15,y,1,8)}}
@@ -335,38 +395,52 @@ function floorTile(c,st,x,y){const X=x*T,Y=y*T,q=(x+y)%2?st.a:st.b;c.fillStyle=q
 const SWC={};
 function swatch(k,i){const key=k+i;if(!SWC[key]){const c=document.createElement('canvas');c.width=c.height=32;const x=c.getContext('2d');x.imageSmoothingEnabled=false;
  if(k=='f')floorTile(x,FLOORS[i],0,0);else{x.translate(0,-32);wallDraw(x,WALLS[i],32)}SWC[key]=c.toDataURL()}return SWC[key]}
-const TABS=[['mov','🛋️','Móveis'],['par','🧱','Paredes'],['chao','🟫','Chão'],['casa','🏠','Casa']];
-const dtabOf=it=>it.wall?'par':it.s?'mov':'chao';
+const TABS=[['mov','🛋️','Móveis'],['dec','🌿','Enfeites'],['par','🧱','Paredes'],['chao','🟫','Chão'],['casa','🏠','Casa']];
+const dtabOf=it=>it.t||(it.wall?'par':it.s?'mov':'chao');
 function setTab(t){S.dtab=t;S.dsel=-2;renderDeco()}
-function setStyle(k,i){if(k=='w')WS=i;else FS=i;saveHouse();renderDeco()}
+function setStyle(k,i){if(k=='w')WS=i;else FS=i;saveHouse();renderDeco(1)}
 function dPos(){const b=$('dbar'),l=S.dside=='l';b.style.left=l?'var(--m)':'auto';b.style.right=l?'auto':'var(--m)'}
 function dSide(){S.dside=S.dside=='l'?'r':'l';dPos()}
+function dArea(){const r=cv.getBoundingClientRect(),k=VW/r.width,b=$('dbar'),bb=b.getBoundingClientRect(),pw=b.style.display=='flex'?(S.dside=='l'?bb.right:r.right-bb.left)*k:0;return{x:(S.dside=='l'?pw:0)+6,y:6,w:VW-pw-12,h:VH-12}}
+function dPush(){DH.push(JSON.stringify(DEC.map(i=>[i.c,i.x,i.y])));if(DH.length>40)DH.shift()}
+function dUndo(){const q=DH.pop();if(!q)return toast('Nada para desfazer');DEC=JSON.parse(q).map(([c,x,y])=>({c,x,y}));dsave();toast('Desfeito')}
+function dMin(){S.dmin=!S.dmin;renderDeco()}
+function dClear(){if(!S.cc){S.cc=1;toast('Toque de novo para limpar tudo');setTimeout(()=>S.cc=0,2500);return}S.cc=0;dPush();DEC=[];dsave();toast('Casa limpa (↶ desfaz)')}
 function resizeHouse(dw,dh){const nw=RW+dw,nh=RH+dh;
  if(nw>16||nh>9)return toast('A casa já está no tamanho máximo');
  if(nw<10||nh<8)return toast('A casa já está no tamanho mínimo');
  const sx=dw/2,dr={x:nw/2-1,y:nh-2,w:2,h:1};
  for(const i of DEC){const it=CAT[i.c],x=i.x+sx;
   if(x<0||x+it.w>nw||(!it.wall&&i.y+it.h>nh-1)||(it.s&&hit({x,y:i.y,w:it.w,h:it.h},dr)))return toast('Tire os móveis da borda antes de reduzir a casa')}
- DEC.forEach(i=>i.x+=sx);RW=nw;RH=nh;P.x=RW/2*T;P.y=(RH-2)*T+16;S.hov=null;dsave();renderDeco();toast(`Casa ${RW}×${RH}`)}
-function casaHTML(){const row=(lb,v,a,b)=>`<div style="grid-column:span 3;display:flex;align-items:center;gap:6px;color:#fff7e0;font-size:14px"><span style="flex:1">${lb}</span><button onpointerdown="resizeHouse(${a})">−</button><b style="min-width:1.6em;text-align:center">${v}</b><button onpointerdown="resizeHouse(${b})">+</button></div>`;
- return row('Largura',RW,'-2,0','2,0')+row('Altura',RH,'0,-1','0,1')+`<div style="grid-column:span 3;font-size:12px;color:#fff7e0;line-height:1.3">Os móveis acompanham a porta ao ampliar. Máx. 16×9.</div>`}
-function homeView(){const z=S.deco?([1,.75,.5].find(z=>RW*T*z<=VW&&RH*T*z<=VH)||.5):1,w=RW*T*z,h=RH*T*z,
+ DH.length=0;DEC.forEach(i=>i.x+=sx);RW=nw;RH=nh;P.x=RW/2*T;P.y=(RH-2)*T+16;S.hov=null;dsave();renderDeco();toast(`Casa ${RW}×${RH}`)}
+function casaHTML(){const row=(lb,v,a,b)=>`<div style="grid-column:span 4;display:flex;align-items:center;gap:6px;color:#fff7e0;font-size:14px"><span style="flex:1">${lb}</span><button onpointerdown="resizeHouse(${a})">−</button><b style="min-width:1.6em;text-align:center">${v}</b><button onpointerdown="resizeHouse(${b})">+</button></div>`;
+ return row('Largura',RW,'-2,0','2,0')+row('Altura',RH,'0,-1','0,1')+`<div style="grid-column:span 4;font-size:12px;color:#fff7e0;line-height:1.3">Os móveis acompanham a porta ao ampliar. Máx. 16×9.</div><div style="grid-column:span 4"><button style="width:100%" onpointerdown="dClear()">🧹 Limpar casa</button></div>`}
+function homeView(){if(S.deco){const a=dArea(),z=Math.max(.3,Math.floor(Math.min(1,a.w/(RW*T),a.h/(RH*T))*16)/16);return{z,ox:Math.round(a.x+(a.w-RW*T*z)/2),oy:Math.round(a.y+(a.h-RH*T*z)/2)}}
+ const z=1,w=RW*T*z,h=RH*T*z,
  f=(p,len,vw)=>len<=vw?Math.round((vw-len)/2):-Math.round(Math.max(0,Math.min(len-vw,p*z-vw/2)));return{z,ox:f(P.x,w,VW),oy:f(P.y,h,VH)}}
 function dTile(e){const r=cv.getBoundingClientRect(),lx=(e.clientX-r.left)*VW/r.width,ly=(e.clientY-r.top)*VH/r.height,v=homeView();
  return[Math.floor((lx-v.ox)/v.z/T),Math.floor((ly-v.oy)/v.z/T)]}
-function dTap(tx,ty){if(S.dsel==-2||S.dtab=='casa')return;if(S.dsel<0){for(let k=DEC.length-1;k>=0;k--){const i=DEC[k],it=CAT[i.c];if(tx>=i.x&&tx<i.x+it.w&&ty>=i.y&&ty<i.y+it.h){DEC.splice(k,1);return dsave()}}return}
- if(canPlace(S.dsel,tx,ty)){DEC.push({c:S.dsel,x:tx,y:ty});dsave()}else toast('Não cabe aqui')}
-function renderDeco(){const tb=S.dtab||'mov',th=(it)=>{const u=thumb(it);return u?`<img src="${u}" style="width:${Math.round(72*it.r[2]/Math.max(it.r[2],it.r[3]))}%;image-rendering:pixelated;pointer-events:none">`:it.ic};
- const sw=(k,i)=>{const a=k=='w'?WALLS:FLOORS,cur=k=='w'?WS:FS;return `<div class="sl ${i==cur?'sel':''}" title="${a[i].n}" onpointerdown="setStyle('${k}',${i});toast('${a[i].n}')"><img src="${swatch(k,i)}" style="width:80%;image-rendering:pixelated;pointer-events:none"></div>`};
- let h=`<div class="dt">`+TABS.map(t=>`<div class="${t[0]==tb?'on':''}" title="${t[2]}" onpointerdown="setTab('${t[0]}');toast('${t[2]}')">${t[1]}</div>`).join('')+`</div><div class="dg">`;
+function dTap(tx,ty){if(S.dsel==-2||S.dtab=='casa')return;if(S.dsel<0){for(let k=DEC.length-1;k>=0;k--){const i=DEC[k],it=CAT[i.c];if(tx>=i.x&&tx<i.x+it.w&&ty>=i.y&&ty<i.y+it.h){dPush();DEC.splice(k,1);return dsave()}}return}
+ if(canPlace(S.dsel,tx,ty)){dPush();DEC.push({c:S.dsel,x:tx,y:ty});dsave()}else toast('Não cabe aqui')}
+function renderDeco(keep){const tb=S.dtab||'mov',bar=$('dbar'),old=bar.querySelector('.dg'),sc=old?old.scrollTop:0,
+ th=it=>{const u=thumb(it);if(!u)return it.ic||'';const a=it.r?it.r[2]:it.tw,b=it.r?it.r[3]:it.th2;return `<img src="${u}" style="width:${Math.round(76*a/Math.max(a,b))}%;image-rendering:pixelated;pointer-events:none">`},
+ sw=(k,i)=>{const a=k=='w'?WALLS:FLOORS,cur=k=='w'?WS:FS;return `<div class="sl ${i==cur?'sel':''}" title="${a[i].n}" onclick="setStyle('${k}',${i})"><img src="${swatch(k,i)}" style="width:80%;image-rendering:pixelated;pointer-events:none"></div>`},
+ nm=tb=='casa'?'Tamanho e opções':S.dsel>=0?CAT[S.dsel].n:S.dsel==-1?'🗑️ Toque num item':'Escolha um item';
+ bar.className='ov '+(S.dmin?'min':'full');
+ if(S.dmin){bar.innerHTML=`<div class="dr"><button onpointerdown="dMin()">🧰</button><button onpointerdown="dUndo()">↶</button><button class="ok" onpointerdown="setDeco(false)">✔</button></div>`;return}
+ let h=`<div class="dt">`+TABS.map(t=>`<div class="${t[0]==tb?'on':''}" title="${t[2]}" onclick="setTab('${t[0]}')">${t[1]}</div>`).join('')+`</div><div class="dn">${nm}</div><div class="dg">`;
  if(tb=='par')h+=WALLS.map((_,i)=>sw('w',i)).join('');
  if(tb=='chao')h+=FLOORS.map((_,i)=>sw('f',i)).join('');
  if(tb=='casa')h+=casaHTML();
- else h+=`<div class="sl ${S.dsel==-1?'sel':''}" title="Remover" onpointerdown="S.dsel=-1;renderDeco();toast('Toque num item para remover')">🗑️</div>`+CAT.map((it,i)=>dtabOf(it)==tb?`<div class="sl ${i==S.dsel?'sel':''}" title="${it.n}" onpointerdown="S.dsel=${i};renderDeco();toast(CAT[${i}].n)">${th(it)}</div>`:'').join('');
- $('dbar').innerHTML=h+`</div><div class="dr"><button onpointerdown="dSide()">⇄</button><button style="flex:1" onpointerdown="setDeco(false)">✔ Pronto</button></div>`}
-function setDeco(on){S.deco=on;S.hov=null;for(const id of['jb','bA','bot'])$(id).style.display=on?'none':'';$('dbar').style.display=on?'flex':'none';if(on){S.dtab='mov';S.dsel=-2;S.dside=S.dside||'r';dPos();jr();renderDeco();toast('Escolha um móvel e toque no chão para colocar')}}
-cv.addEventListener('pointermove',e=>{if(S.deco)S.hov=dTile(e)});
-cv.addEventListener('pointerdown',e=>{if(S.deco){S.hov=dTile(e);dTap(...S.hov)}});
+ else h+=`<div class="sl ${S.dsel==-1?'sel':''}" title="Remover" onclick="S.dsel=-1;renderDeco(1)">🗑️</div>`+CAT.map((it,i)=>dtabOf(it)==tb?`<div class="sl ${i==S.dsel?'sel':''}" title="${it.n}" onclick="S.dsel=${i};renderDeco(1)">${th(it)}</div>`:'').join('');
+ bar.innerHTML=h+`</div><div class="dr"><button onpointerdown="dSide()">⇄</button><button onpointerdown="dUndo()">↶</button><button onpointerdown="dMin()">👁</button><button class="ok" onpointerdown="setDeco(false)">✔ Pronto</button></div>`;
+ if(keep){const n=bar.querySelector('.dg');if(n)n.scrollTop=sc}}
+function setDeco(on){S.deco=on;S.hov=null;dDown=0;document.body.classList.toggle('deco',on);for(const id of['jb','bA','bot'])$(id).style.display=on?'none':'';$('dbar').style.display=on?'flex':'none';if(on){S.dtab='mov';S.dsel=-2;S.dmin=0;DH.length=0;S.dside=S.dside||'r';dPos();jr();renderDeco();toast('Escolha um item, arraste no chão e solte para colocar')}}
+let dDown=0;
+cv.addEventListener('pointermove',e=>{if(S.deco&&(dDown||e.pointerType=='mouse'))S.hov=dTile(e)});
+cv.addEventListener('pointerdown',e=>{if(S.deco){dDown=1;S.hov=dTile(e)}});
+cv.addEventListener('pointerup',e=>{if(S.deco&&dDown){dDown=0;S.hov=dTile(e);dTap(...S.hov);if(e.pointerType!='mouse')S.hov=null}});
+cv.addEventListener('pointercancel',()=>{dDown=0;S.hov=null});
 function ok(x,y){const h=S.scene==='home',w=h?RW:W,hh=h?RH:H,sd=h?hdyn:solid,r=6;for(const[ox,oy]of[[-r,-2],[r,-2],[-r,r],[r,r]]){const tx=(x+ox)/T|0,ty=(y+oy)/T|0;if(x+ox<0||y+oy<0||tx>=w||ty>=hh||sd[ty][tx])return false;if(!h){const qx=x+ox,qy=y+oy;if(qy>=96&&qy<128&&((qx>=74&&qx<112)||(qx>=144&&qx<184)))return false}}return true}
 function drawHome(){g.fillStyle='#1a120c';g.fillRect(0,0,VW,VH);
  g.save();{const v=homeView();g.translate(v.ox,v.oy);g.scale(v.z,v.z)}
