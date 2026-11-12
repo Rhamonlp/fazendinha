@@ -1,12 +1,13 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="theme-color" content="#000000">
 <title>Fazendinha da Duda</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600&display=swap">
 <style>
 :root{--m:calc(18px + env(safe-area-inset-left,0px));--b:calc(14px + env(safe-area-inset-bottom,0px));--sl:clamp(34px,11.5vh,50px)}
-html,body{margin:0;height:100%;background:#000;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;overscroll-behavior:none;font-family:system-ui,sans-serif;color:#f6ecd2}
-#stage{position:fixed;inset:0}
-canvas{width:100%;height:100%;object-fit:contain;image-rendering:pixelated;display:block}
+html,body{margin:0;width:100%;height:100%;height:100dvh;background:#000;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;overscroll-behavior:none;font-family:system-ui,sans-serif;color:#f6ecd2}
+#stage{position:fixed;left:0;top:0;width:100%;height:100%;height:100dvh}
+canvas{width:100%;height:100%;object-fit:fill;image-rendering:pixelated;display:block}
 .ov{position:absolute}
 #jb{left:var(--m);bottom:var(--b);width:min(190px,45vh);height:min(190px,45vh);border-radius:50%;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAYAAACohjseAAACDUlEQVR4nO2by23DMAyGaSMTZIKiM3SKrlOgQA899VAgQNfpFJkhyAQdIe2JDctQEiVLFGX3PyXyQ/xMPaLfygRGur97+KbfT+fjZFHvbFEJwh32FzjsL3/KWqs5IIVDWUKaZJDCxcpaqCmgJkOts1i9o4cC5hl7/pKfbe3Bp8rNQlAvH2+PAADvT6+fAFdIhOPHuWrALr4Bh8OguTiE9rylkMUXa8FKVQu06CIKVxuMi4KWQGaPopZwvI6SETcL0BpOqisXUg3YC06qMwdSBdgbTqpbC5kE9AInxaCBVDdRD3ConFiigPiEPMGhMKZUFoOAVuu1GorFmmyiHrOH0sRmsh7sKRHQc9/jSvXFbWZwTboBHKl5omLNdIcfRpoWYkIOXFrNtJD6liEbwaOoJcItyUnyLQFufROv4n4PCuOfpYOhMq+Kxb+NUVTyKEO+pUfF4p9xtKEnjdL/AK4xSvGfzsfp16VqbQO2Vshm3PGC0edDbi3eNF48YcR5UPJNxxlJCrVNwJGaaax5Amw1g1Ses6iJLQhotc2jhmKxRjPouS+m+h5K3Qc9QebEkgSkT8gDZO4LUVUGvUCWvO1VN9HekKWvsrPmwV6QS97TZ0/01pBLNyH8byNJabUbgahWvZWLa5Wb8UIKmcooag61iqHpckkTeOsf9SbrwZ6+a/NaYr6rxZLMbM3X628FPxTnbQl1NFr/AAAAAElFTkSuQmCC) center/100% 100% no-repeat;image-rendering:pixelated;touch-action:none}
 #jk{position:absolute;left:50%;top:50%;width:36%;height:36%;margin:-18% 0 0 -18%;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAnElEQVR4nNWVyw2AIBBEZUuwAkIN1mYR1kYNhAosQTxhwv5gMR6ck+DsY8wKuEVR8Fvh5lOOTqphX0igETDMwiSv6xmO9WrG+0kyNEmfBwzDICwMrlCYgXGeyiD5R2CaFyxN6Cn4rTQJLemkGtqyl/oZkPtpe8I1oG10q1KOjkSypOS8UMlWqLT1vjscNKgm/HVkOUuTOK9aPHMF3M+iTyK4OuXQAAAAAElFTkSuQmCC) center/100% 100% no-repeat;image-rendering:pixelated}
@@ -28,7 +29,7 @@ button:active{background:#b57a3a}
 .pn>div{background:#3a2a1c;border:3px solid #7a5a3a;border-radius:12px;padding:14px 18px;max-width:80vw;max-height:80vh;overflow:auto;font-size:14px;line-height:1.5}
 .pn h3{margin:0 0 8px}.row{display:flex;gap:8px;margin-top:10px}
 #rot{display:none;position:fixed;inset:0;background:#2b2118;z-index:9;align-items:center;justify-content:center;text-align:center;font-size:20px;padding:20px}
-@media (orientation:portrait) and (pointer:coarse){#rot{display:flex}}
+@media (orientation:portrait){:root{--sl:clamp(34px,10.6vw,50px)}#jb{width:min(190px,46vw);height:min(190px,46vw)}#bA{width:min(96px,24vw);height:min(96px,24vw)}#cb{bottom:calc(var(--b) + min(96px,24vw) + 18px)}#bot{bottom:calc(var(--b) + min(190px,46vw) + 14px)}#dbtn{top:calc(52px + env(safe-area-inset-top,0px))}}
 html,body{font-family:'Pixelify Sans',system-ui,sans-serif}
 button{background:#d9a05b;border:3px solid #6b3410;color:#3b1f08;font-family:inherit;font-weight:600;box-shadow:inset 0 -3px #b9803f}
 button:active{background:#c08a45}#bA{box-shadow:none}
@@ -40,7 +41,7 @@ button:active{background:#c08a45}#bA{box-shadow:none}
 .pn>div{background:#ecc790;border-color:#6b3410;color:#3b1f08}
 #toast{background:#6b3410cc;border:2px solid #d9893a}
 #dbtn{top:calc(10px + env(safe-area-inset-top,0px));left:var(--m);display:none}
-#dbar{right:var(--m);top:calc(104px + env(safe-area-inset-top,0px));display:none;grid-template-columns:repeat(2,var(--sl));gap:3px;background:#b5651d;border:3px solid #6b3410;padding:4px;border-radius:8px;box-shadow:inset 0 0 0 2px #d9893a}
+#dbar{right:var(--m);top:calc(104px + env(safe-area-inset-top,0px));display:none;flex-direction:column;gap:4px;width:calc(var(--sl)*3 + 6px);max-height:calc(100% - 118px - env(safe-area-inset-top,0px));background:#b5651d;border:3px solid #6b3410;padding:4px;border-radius:8px;box-shadow:inset 0 0 0 2px #d9893a}#dbar .dt{display:flex;gap:2px}#dbar .dt div{flex:1;text-align:center;font-size:calc(var(--sl)*.42);padding:2px 0;border:2px solid #9a5a26;border-radius:4px;background:#ecc790;line-height:1.25}#dbar .dt div.on{background:#f6dba8;border-color:#d9382c}#dbar .dg{display:grid;grid-template-columns:repeat(3,var(--sl));gap:3px;overflow-y:auto;touch-action:pan-y;min-height:0}#dbar .dr{display:flex;gap:4px}#dbar .dr button{padding:4px 8px}
 
 #chest>div{padding:12px 16px}
 #chest h3{display:flex;justify-content:space-between;gap:16px;align-items:baseline}
@@ -79,14 +80,21 @@ button:active{background:#c08a45}#bA{box-shadow:none}
 <div id="cmsg"></div>
 <div class="row"><button id="cq" onclick="chestQ()">Qtd: 1</button><button onclick="closeP()">Fechar</button></div></div></div>
 <div class="pn" id="cfg"><div><h3>⚙️ Configurações</h3>
-<div>Teclado: WASD/setas mover · 1-6 itens · Espaço ou E agir · V vender · B comprar · Esc menu<br>Vender e comprar só perto do baú.<br>Baú: fique de frente para ele e toque em agir para abrir o inventário.<br>Comer: selecione 🍉 e toque em agir.<br>Casa: fique de frente para a porta e toque em agir. Dentro, a cama (agir) faz dormir e passar o dia.</div>
-<div class="row"><button onclick="closeP()">Continuar</button><button onclick="location.reload()">Reiniciar jogo</button></div></div></div>
+<div>Teclado: WASD/setas mover · 1-6 itens · Espaço ou E agir · V vender · B comprar · Esc menu<br>Vender e comprar só perto do baú.<br>Baú: fique de frente para ele e toque em agir para abrir o inventário.<br>Comer: selecione 🍉 e toque em agir.<br>Casa: fique de frente para a porta e toque em agir. Dentro, fique de frente para uma cama e toque em agir para dormir. Use 🛋️ Decorar para montar a casa.<br>iPhone: Compartilhar → Adicionar à Tela de Início para abrir em tela cheia.</div>
+<div class="row"><button onclick="closeP()">Continuar</button><button onclick="togFS()">⛶ Tela cheia</button><button onclick="location.reload()">Reiniciar jogo</button></div></div></div>
 </div>
 <div id="rot">📱↔️<br>Gire o celular para jogar na horizontal</div>
 <script>
 const SPR="data:image/png;base64,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";
 const img=new Image();img.src=SPR;
-const cv=document.getElementById('c'),VW=512,VH=288,g=cv.getContext('2d');g.imageSmoothingEnabled=false;
+let VW=512,VH=288;const cv=document.getElementById('c'),g=cv.getContext('2d');
+function fit(){const iw=innerWidth||512,ih=innerHeight||288,k0=Math.min(iw/320,ih/288),k=k0>=2?Math.floor(k0):k0;VW=Math.ceil(iw/k);VH=Math.ceil(ih/k);if(cv.width!==VW||cv.height!==VH){cv.width=VW;cv.height=VH}g.imageSmoothingEnabled=false}
+fit();addEventListener('resize',fit);addEventListener('orientationchange',()=>{setTimeout(fit,120);setTimeout(fit,500)});
+const isFS=()=>document.fullscreenElement||document.webkitFullscreenElement;
+function goFS(){const e=document.documentElement,f=e.requestFullscreen||e.webkitRequestFullscreen;if(f&&!isFS())try{const p=f.call(e,{navigationUI:'hide'});p&&p.catch&&p.catch(()=>{})}catch(x){}}
+function togFS(){if(isFS()){const f=document.exitFullscreen||document.webkitExitFullscreen;if(f)try{f.call(document)}catch(x){}}else goFS()}
+['fullscreenchange','webkitfullscreenchange'].forEach(n=>document.addEventListener(n,()=>{setTimeout(fit,100);setTimeout(fit,400)}));
+let fsTry=0;addEventListener('pointerup',e=>{if(!fsTry&&e.pointerType==='touch'&&!(matchMedia&&matchMedia('(display-mode: standalone)').matches)){fsTry=1;goFS()}},{passive:true});
 const CH_SLOTS=6,CH_STACK=1;
 const T=32,W=28,H=20,CHEST={x:8,y:3},ROW={down:0,idle:1,right:2,up:3,left:4},DIR={down:[0,1],up:[0,-1],left:[-1,0],right:[1,0]};
 const soil=[...Array(H)].map(()=>Array(W).fill(0)),crop={},flowers=[];
@@ -218,11 +226,11 @@ function buy(){if(!near())return;const c=S.tool==5,p=c?6:10;if(S.money<p)return 
 function front(){const d=DIR[P.dir];return[(P.x/T|0)+d[0],(P.y/T|0)+d[1]]}
 function fade(cb){S.paused=true;jr();$('fade').style.opacity=1;setTimeout(()=>{cb();$('fade').style.opacity=0;setTimeout(()=>S.paused=false,250)},420)}
 function eat(){if(S.harv<1)return toast('Sem melancias!');if(S.food>=5)return toast('Barriga cheia!');S.harv--;S.food++;hud()}
-function enter(){fade(()=>{S.scene='home';P.x=5*T;P.y=6*T+16;P.dir='up'})}
+function enter(){fade(()=>{S.scene='home';P.x=RW/2*T;P.y=(RH-2)*T+16;P.dir='up'})}
 function leave(){fade(()=>{S.scene='farm';P.x=4*T;P.y=4*T+16;P.dir='down'})}
 function sleep(){fade(()=>{S.hp=5;nextDay();toast('Bom dia! Você dormiu bem.')})}
 function act(){if(S.paused||S.deco)return;
- if(S.scene==='home'){const[hx,hy]=front();if(S.tool==4)return eat();if(hx>=1&&hx<=2&&hy>=2&&hy<=3)return sleep();return}
+ if(S.scene==='home'){const[hx,hy]=front();if(S.tool==4)return eat();if(DEC.some(i=>{const it=CAT[i.c];return(it.id=='cama'||it.id=='cama_lado')&&hx>=i.x&&hx<i.x+it.w&&hy>=i.y&&hy<i.y+it.h}))return sleep();return}
  {const[dx,dy]=front();if(P.dir=='up'&&dy>=2&&dy<=3&&(dx==3||dx==4))return enter()}
  {const[bx,by]=front();if(bx==CHEST.x&&by==CHEST.y)return openChest()}
  {const[ex,ey]=front(),ek=ex+','+ey;if(EGG[ek]){delete EGG[ek];S.egg++;toast('🥚 +1 ovo');return hud()}}
@@ -252,48 +260,126 @@ function survive(dt){S.ht+=dt;
   if(S.food==0&&S.hs%12==0){S.hp--;hud();toast('Você está com fome!')}
   else if(S.food>=4&&S.hp<5&&S.hs%20==0){S.hp++;hud()}
   if(S.hp<=0)fade(()=>{S.hp=2;S.food=2;S.scene='home';P.x=3*T+16;P.y=3*T+16;P.dir='down';nextDay();toast('A Duda desmaiou de fome e acordou em casa...')})}}
-const RW=10,RH=8,hsolid=[...Array(RH)].map((_,y)=>[...Array(RW)].map((_,x)=>(y<2||(y==7&&x!=4&&x!=5)||(x>=1&&x<=2&&y>=2&&y<=3)||(y==2&&(x==7||x==8)))?1:0));
+let RW=10,RH=8,WS=0,FS=0;
+try{const z=JSON.parse(localStorage.getItem('fz_house')||'null');if(z){const zw=z.w|0;RW=Math.max(10,Math.min(16,zw-zw%2));RH=Math.max(8,Math.min(9,z.h|0));WS=z.ws|0;FS=z.fs|0}}catch(e){}
+let hsolid;function mkSolid(){hsolid=[...Array(RH)].map((_,y)=>[...Array(RW)].map((_,x)=>(y<2||(y==RH-1&&x!=RW/2-1&&x!=RW/2))?1:0))}mkSolid();
+function saveHouse(){try{localStorage.setItem('fz_house',JSON.stringify({w:RW,h:RH,ws:WS,fs:FS}))}catch(e){}}
+const FUR=new Image();FUR.src='data:image/png;base64,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';const FX=620,FY=508;
+function spD(x,y){const it=this,dw=it.r[2]*2,dh=it.r[3]*2;g.drawImage(FUR,it.r[0]-FX,it.r[1]-FY,it.r[2],it.r[3],Math.round(x+(it.w*T-dw)/2),Math.round(y+(it.s?it.h*T-dh:(it.h*T-dh)/2)),dw,dh)}
 const CAT=[
-{n:'Cadeira',ic:'🪑',w:1,h:1,s:1,d:(x,y)=>{g.fillStyle='#6b3b1a';g.fillRect(x+8,y+4,16,10);g.fillStyle='#a8703c';g.fillRect(x+6,y+14,20,8);g.fillRect(x+7,y+22,3,7);g.fillRect(x+22,y+22,3,7)}},
-{n:'Sofá',ic:'🛋️',w:2,h:1,s:1,d:(x,y)=>{g.fillStyle='#8c3a5a';g.fillRect(x+2,y+4,60,12);g.fillStyle='#b04a72';g.fillRect(x+6,y+14,52,14);g.fillStyle='#8c3a5a';g.fillRect(x,y+8,8,20);g.fillRect(x+56,y+8,8,20)}},
-{n:'Planta',ic:'🪴',w:1,h:1,s:1,d:(x,y)=>{g.fillStyle='#c0583a';g.fillRect(x+9,y+20,14,10);g.fillStyle='#3f9b3e';g.beginPath();g.arc(x+16,y+13,9,0,7);g.fill();g.fillStyle='#58b84f';g.beginPath();g.arc(x+12,y+10,5,0,7);g.fill()}},
-{n:'Estante',ic:'📚',w:1,h:2,s:1,d:(x,y)=>{g.fillStyle='#6b3b1a';g.fillRect(x+3,y+2,26,60);g.fillStyle='#a8703c';g.fillRect(x+6,y+5,20,54);g.fillStyle='#6b3b1a';[18,32,46].forEach(o=>g.fillRect(x+6,y+o,20,3));['#c0583a','#4a86c8','#e8c84a','#3f9b3e'].forEach((c,i)=>{g.fillStyle=c;g.fillRect(x+8+i*5,y+8,4,10);g.fillRect(x+8+i*5,y+36,4,10)})}},
-{n:'Abajur',ic:'💡',w:1,h:1,s:1,d:(x,y)=>{g.fillStyle='#6b3b1a';g.fillRect(x+14,y+16,4,12);g.fillRect(x+10,y+26,12,3);g.fillStyle='#ffd36b';g.fillRect(x+9,y+5,14,12)}},
-{n:'Tapete',ic:'🟦',w:2,h:2,s:0,d:(x,y)=>{g.fillStyle='#2f5f96';g.fillRect(x+2,y+2,60,60);g.fillStyle='#7fb2e0';g.fillRect(x+8,y+8,48,48);g.fillStyle='#2f5f96';g.fillRect(x+16,y+16,32,32)}},
-{n:'Quadro',ic:'🖼️',w:1,h:1,s:0,wall:1,d:(x,y)=>{g.fillStyle='#6b3b1a';g.fillRect(x+4,y+6,24,20);g.fillStyle='#f0d890';g.fillRect(x+7,y+9,18,14);g.fillStyle='#e0703a';g.fillRect(x+10,y+16,12,7);g.fillStyle='#7fbf5a';g.fillRect(x+7,y+19,18,4)}}];
-let DEC=[];try{DEC=(JSON.parse(localStorage.getItem('fz_decor')||'[]')||[]).filter(i=>CAT[i.c]&&Number.isInteger(i.x)&&Number.isInteger(i.y)&&i.x>=0&&i.y>=0&&i.x+CAT[i.c].w<=RW&&i.y+CAT[i.c].h<=RH)}catch(e){}
-let hdyn;function rebuild(){hdyn=hsolid.map(r=>r.slice());for(const i of DEC){const it=CAT[i.c];if(it.s)for(let a=0;a<it.w;a++)for(let b=0;b<it.h;b++)hdyn[i.y+b][i.x+a]=1}}rebuild();
-function dsave(){rebuild();try{localStorage.setItem('fz_decor',JSON.stringify(DEC))}catch(e){}}
+{id:'cama',n:'Cama',w:1,h:2,s:1,r:[624,535,16,25],d:spD},
+{id:'cama_lado',n:'Cama de lado',w:2,h:1,s:1,r:[640,539,19,21],d:spD},
+{id:'estante_v',n:'Estante',w:1,h:1,s:1,r:[672,529,16,23],d:spD},
+{id:'prateleira',n:'Prateleira',w:1,h:1,s:1,r:[688,529,16,23],d:spD},
+{id:'comoda_alta',n:'Cômoda alta',w:1,h:1,s:1,r:[704,529,16,23],d:spD},
+{id:'estante_livros',n:'Estante de livros',w:1,h:1,s:1,r:[720,529,16,23],d:spD},
+{id:'armario',n:'Armário',w:1,h:1,s:1,r:[736,529,13,23],d:spD},
+{id:'bau',n:'Baú',w:1,h:1,s:1,r:[752,536,18,17],d:spD},
+{id:'mesinha',n:'Mesinha',w:1,h:1,s:1,r:[770,538,13,14],d:spD},
+{id:'banco',n:'Banco',w:1,h:1,s:1,r:[784,539,14,13],d:spD},
+{id:'banquinho',n:'Banquinho',w:1,h:1,s:1,r:[800,538,11,14],d:spD},
+{id:'mesa_estreita',n:'Mesa estreita',w:1,h:2,s:1,r:[626,564,12,26],d:spD},
+{id:'mesa',n:'Mesa',w:2,h:2,s:1,r:[797,574,22,27],d:spD},
+{id:'tapete_g',n:'Tapete grande',w:3,h:3,s:0,r:[644,563,41,42],d:spD},
+{id:'tapete',n:'Tapete',w:2,h:2,s:0,r:[698,570,28,28],d:spD},
+{id:'tapete_p',n:'Tapete pequeno',w:1,h:1,s:0,r:[751,575,18,18],d:spD},
+{id:'vaso',n:'Vaso azul',w:1,h:1,s:1,r:[739,517,10,11],d:spD},
+{id:'jarro',n:'Jarro',w:1,h:1,s:1,r:[754,516,10,12],d:spD},
+{id:'pote',n:'Pote',w:1,h:1,s:1,r:[771,517,10,11],d:spD},
+{id:'girassol',n:'Girassol',w:1,h:1,s:1,r:[819,512,12,15],d:spD},
+{id:'abajur',n:'Abajur',ic:'💡',w:1,h:1,s:1,d:(x,y)=>{g.fillStyle='#6b3b1a';g.fillRect(x+14,y+16,4,12);g.fillRect(x+10,y+26,12,3);g.fillStyle='#ffd36b';g.fillRect(x+9,y+5,14,12)}},
+{id:'quadro',n:'Quadro',ic:'🖼️',w:1,h:1,s:0,wall:1,d:(x,y)=>{g.fillStyle='#6b3b1a';g.fillRect(x+4,y+6,24,20);g.fillStyle='#f0d890';g.fillRect(x+7,y+9,18,14);g.fillStyle='#e0703a';g.fillRect(x+10,y+16,12,7);g.fillStyle='#7fbf5a';g.fillRect(x+7,y+19,18,4)}}
+].map(it=>{if(it.d===spD){const o=it;it={...o,d:(x,y)=>spD.call(o,x,y)}}return it});
+const CID=Object.fromEntries(CAT.map((it,i)=>[it.id,i]));
+function thumb(it){if(it.ic||!FUR.complete||!FUR.naturalWidth)return'';if(it.th)return it.th;const c=document.createElement('canvas');c.width=it.r[2];c.height=it.r[3];c.getContext('2d').drawImage(FUR,it.r[0]-FX,it.r[1]-FY,it.r[2],it.r[3],0,0,it.r[2],it.r[3]);return it.th=c.toDataURL()}
+FUR.onload=()=>{if(S.deco)renderDeco()};
+const OLDC=['banquinho','banco','girassol','estante_livros','abajur','tapete','quadro'];
+let DEC=[];try{let raw=JSON.parse(localStorage.getItem('fz_decor2')||'null');
+ if(!raw){raw=(JSON.parse(localStorage.getItem('fz_decor')||'[]')||[]).map(i=>({k:OLDC[i.c],x:i.x,y:i.y}))}
+ DEC=(raw||[]).map(i=>({c:CID[i.k],x:i.x,y:i.y})).filter(i=>CAT[i.c]&&Number.isInteger(i.x)&&Number.isInteger(i.y)&&i.x>=0&&i.y>=0&&i.x+CAT[i.c].w<=RW&&i.y+CAT[i.c].h<=RH)}catch(e){}
+let hdyn;function rebuild(){mkSolid();hdyn=hsolid.map(r=>r.slice());for(const i of DEC){const it=CAT[i.c];if(it.s)for(let a=0;a<it.w;a++)for(let b=0;b<it.h;b++)hdyn[i.y+b][i.x+a]=1}}rebuild();
+function dsave(){rebuild();saveHouse();try{localStorage.setItem('fz_decor2',JSON.stringify(DEC.map(i=>({k:CAT[i.c].id,x:i.x,y:i.y}))))}catch(e){}}
 const hit=(a,b)=>a.x<b.x+b.w&&b.x<a.x+a.w&&a.y<b.y+b.h&&b.y<a.y+a.h;
 function canPlace(c,x,y){const it=CAT[c],r={x,y,w:it.w,h:it.h};
  if(x<0||y<0||x+it.w>RW||y+it.h>RH)return false;
- if(it.wall){if(y>1||x==4||x==5||x==8)return false}
- else{if(y<2||y+it.h>7)return false;for(let a=0;a<it.w;a++)for(let b=0;b<it.h;b++)if(hsolid[y+b][x+a])return false;
-  if(it.s){if(hit(r,{x:4,y:6,w:2,h:1})||hit(r,{x:P.x/T|0,y:P.y/T|0,w:1,h:1}))return false}}
+ if(it.wall){if(y>1)return false}
+ else{if(y<2||y+it.h>RH-1)return false;for(let a=0;a<it.w;a++)for(let b=0;b<it.h;b++)if(hsolid[y+b][x+a])return false;
+  if(it.s){if(hit(r,{x:RW/2-1,y:RH-2,w:2,h:1})||hit(r,{x:P.x/T|0,y:P.y/T|0,w:1,h:1}))return false}}
  for(const i of DEC){const o=CAT[i.c];if(!!o.wall!==!!it.wall)continue;if(o.s==it.s&&hit(r,{x:i.x,y:i.y,w:o.w,h:o.h}))return false}
  return true}
-function dTile(e){const r=cv.getBoundingClientRect(),k=Math.min(r.width/VW,r.height/VH),ox=(r.width-VW*k)/2,oy=(r.height-VH*k)/2;
- return[Math.floor(((e.clientX-r.left-ox)/k-((VW-RW*T)/2|0))/T),Math.floor(((e.clientY-r.top-oy)/k-((VH-RH*T)/2|0))/T)]}
-function dTap(tx,ty){if(S.dsel<0){for(let k=DEC.length-1;k>=0;k--){const i=DEC[k],it=CAT[i.c];if(tx>=i.x&&tx<i.x+it.w&&ty>=i.y&&ty<i.y+it.h){DEC.splice(k,1);return dsave()}}return}
+
+const WALLS=[
+{n:'Bege',b:'#e6d2a4',l:'#d4bb86',r:'#8a5a34',p:'v'},
+{n:'Azul',b:'#b9d7ea',l:'#a3c6de',r:'#5a7a93',p:'v'},
+{n:'Rosa',b:'#f0c4cc',l:'#e3aab5',r:'#a8566a',p:'v'},
+{n:'Menta',b:'#bfe0c4',l:'#a7cfae',r:'#5f8a66',p:'v'},
+{n:'Madeira',b:'#b9824c',l:'#8f5c30',r:'#5c3a1c',p:'v'},
+{n:'Tijolo',b:'#b5593d',l:'#8a3a28',r:'#5a2a1c',p:'b'}];
+const FLOORS=[
+{n:'Madeira',p:'w',a:'#c98f55',b:'#c08850',l:'#a8703c'},
+{n:'Madeira escura',p:'w',a:'#8a5a3a',b:'#815233',l:'#5c3a22'},
+{n:'Xadrez',p:'c',a:'#f1e8d2',b:'#b04a3c',l:'#8c3a2e'},
+{n:'Pedra',p:'s',a:'#9aa0ab',b:'#8d939e',l:'#6f7580'},
+{n:'Azulejo',p:'t',a:'#7fb2d6',b:'#6aa0c8',l:'#4a7aa0'},
+{n:'Carpete',p:'r',a:'#6d8f5a',b:'#648552',l:'#4a6a3c'}];
+function wallDraw(c,st,w){c.fillStyle=st.b;c.fillRect(0,0,w,2*T);
+ if(st.p=='v'){c.fillStyle=st.l;for(let x=0;x<w;x+=16)c.fillRect(x,0,2,2*T-8)}
+ else{for(let y=0;y<2*T-8;y+=8){const o=(y/8)%2?8:0;c.fillStyle=st.l;c.fillRect(0,y+7,w,1);for(let x=-o;x<w;x+=16)c.fillRect(x+15,y,1,8)}}
+ c.fillStyle=st.r;c.fillRect(0,2*T-8,w,8)}
+function floorTile(c,st,x,y){const X=x*T,Y=y*T,q=(x+y)%2?st.a:st.b;c.fillStyle=q;c.fillRect(X,Y,T,T);
+ if(st.p=='w'){c.fillStyle=st.l;c.fillRect(X,Y+T-2,T,2);c.fillRect(X+(y%2?10:22),Y,2,T)}
+ else if(st.p=='c'){c.fillStyle=st.l;c.fillRect(X,Y+T-1,T,1);c.fillRect(X+T-1,Y,1,T)}
+ else if(st.p=='s'){c.fillStyle=st.l;c.fillRect(X,Y+T-2,T,2);c.fillRect(X+T-2,Y,2,T);c.fillStyle='#b4bac4';c.fillRect(X+4,Y+4,6,2);c.fillRect(X+18,Y+16,8,2)}
+ else if(st.p=='t'){c.fillStyle=st.b;c.fillRect(X+2,Y+2,13,13);c.fillRect(X+17,Y+17,13,13);c.fillStyle=st.l;c.fillRect(X,Y+T-1,T,1);c.fillRect(X+T-1,Y,1,T)}
+ else{c.fillStyle=st.l;for(let i=0;i<T;i+=4)for(let j=0;j<T;j+=8)c.fillRect(X+i,Y+j+(i/4%2)*3,2,2)}}
+const SWC={};
+function swatch(k,i){const key=k+i;if(!SWC[key]){const c=document.createElement('canvas');c.width=c.height=32;const x=c.getContext('2d');x.imageSmoothingEnabled=false;
+ if(k=='f')floorTile(x,FLOORS[i],0,0);else{x.translate(0,-32);wallDraw(x,WALLS[i],32)}SWC[key]=c.toDataURL()}return SWC[key]}
+const TABS=[['mov','🛋️','Móveis'],['par','🧱','Paredes'],['chao','🟫','Chão'],['casa','🏠','Casa']];
+const dtabOf=it=>it.wall?'par':it.s?'mov':'chao';
+function setTab(t){S.dtab=t;S.dsel=-2;renderDeco()}
+function setStyle(k,i){if(k=='w')WS=i;else FS=i;saveHouse();renderDeco()}
+function dPos(){const b=$('dbar'),l=S.dside=='l';b.style.left=l?'var(--m)':'auto';b.style.right=l?'auto':'var(--m)'}
+function dSide(){S.dside=S.dside=='l'?'r':'l';dPos()}
+function resizeHouse(dw,dh){const nw=RW+dw,nh=RH+dh;
+ if(nw>16||nh>9)return toast('A casa já está no tamanho máximo');
+ if(nw<10||nh<8)return toast('A casa já está no tamanho mínimo');
+ const sx=dw/2,dr={x:nw/2-1,y:nh-2,w:2,h:1};
+ for(const i of DEC){const it=CAT[i.c],x=i.x+sx;
+  if(x<0||x+it.w>nw||(!it.wall&&i.y+it.h>nh-1)||(it.s&&hit({x,y:i.y,w:it.w,h:it.h},dr)))return toast('Tire os móveis da borda antes de reduzir a casa')}
+ DEC.forEach(i=>i.x+=sx);RW=nw;RH=nh;P.x=RW/2*T;P.y=(RH-2)*T+16;S.hov=null;dsave();renderDeco();toast(`Casa ${RW}×${RH}`)}
+function casaHTML(){const row=(lb,v,a,b)=>`<div style="grid-column:span 3;display:flex;align-items:center;gap:6px;color:#fff7e0;font-size:14px"><span style="flex:1">${lb}</span><button onpointerdown="resizeHouse(${a})">−</button><b style="min-width:1.6em;text-align:center">${v}</b><button onpointerdown="resizeHouse(${b})">+</button></div>`;
+ return row('Largura',RW,'-2,0','2,0')+row('Altura',RH,'0,-1','0,1')+`<div style="grid-column:span 3;font-size:12px;color:#fff7e0;line-height:1.3">Os móveis acompanham a porta ao ampliar. Máx. 16×9.</div>`}
+function homeView(){const z=S.deco?([1,.75,.5].find(z=>RW*T*z<=VW&&RH*T*z<=VH)||.5):1,w=RW*T*z,h=RH*T*z,
+ f=(p,len,vw)=>len<=vw?Math.round((vw-len)/2):-Math.round(Math.max(0,Math.min(len-vw,p*z-vw/2)));return{z,ox:f(P.x,w,VW),oy:f(P.y,h,VH)}}
+function dTile(e){const r=cv.getBoundingClientRect(),lx=(e.clientX-r.left)*VW/r.width,ly=(e.clientY-r.top)*VH/r.height,v=homeView();
+ return[Math.floor((lx-v.ox)/v.z/T),Math.floor((ly-v.oy)/v.z/T)]}
+function dTap(tx,ty){if(S.dsel==-2||S.dtab=='casa')return;if(S.dsel<0){for(let k=DEC.length-1;k>=0;k--){const i=DEC[k],it=CAT[i.c];if(tx>=i.x&&tx<i.x+it.w&&ty>=i.y&&ty<i.y+it.h){DEC.splice(k,1);return dsave()}}return}
  if(canPlace(S.dsel,tx,ty)){DEC.push({c:S.dsel,x:tx,y:ty});dsave()}else toast('Não cabe aqui')}
-function renderDeco(){$('dbar').innerHTML=`<div class="sl ${S.dsel<0?'sel':''}" onpointerdown="S.dsel=-1;renderDeco()">🗑️</div>`+CAT.map((it,i)=>`<div class="sl ${i==S.dsel?'sel':''}" onpointerdown="S.dsel=${i};renderDeco()">${it.ic}</div>`).join('')+`<button style="grid-column:span 2" onpointerdown="setDeco(false)">✔ Pronto</button>`}
-function setDeco(on){S.deco=on;S.hov=null;for(const id of['jb','bA','bot'])$(id).style.display=on?'none':'';$('dbar').style.display=on?'grid':'none';if(on){jr();renderDeco();toast('Toque no chão ou na parede para colocar')}}
+function renderDeco(){const tb=S.dtab||'mov',th=(it)=>{const u=thumb(it);return u?`<img src="${u}" style="width:${Math.round(72*it.r[2]/Math.max(it.r[2],it.r[3]))}%;image-rendering:pixelated;pointer-events:none">`:it.ic};
+ const sw=(k,i)=>{const a=k=='w'?WALLS:FLOORS,cur=k=='w'?WS:FS;return `<div class="sl ${i==cur?'sel':''}" title="${a[i].n}" onpointerdown="setStyle('${k}',${i});toast('${a[i].n}')"><img src="${swatch(k,i)}" style="width:80%;image-rendering:pixelated;pointer-events:none"></div>`};
+ let h=`<div class="dt">`+TABS.map(t=>`<div class="${t[0]==tb?'on':''}" title="${t[2]}" onpointerdown="setTab('${t[0]}');toast('${t[2]}')">${t[1]}</div>`).join('')+`</div><div class="dg">`;
+ if(tb=='par')h+=WALLS.map((_,i)=>sw('w',i)).join('');
+ if(tb=='chao')h+=FLOORS.map((_,i)=>sw('f',i)).join('');
+ if(tb=='casa')h+=casaHTML();
+ else h+=`<div class="sl ${S.dsel==-1?'sel':''}" title="Remover" onpointerdown="S.dsel=-1;renderDeco();toast('Toque num item para remover')">🗑️</div>`+CAT.map((it,i)=>dtabOf(it)==tb?`<div class="sl ${i==S.dsel?'sel':''}" title="${it.n}" onpointerdown="S.dsel=${i};renderDeco();toast(CAT[${i}].n)">${th(it)}</div>`:'').join('');
+ $('dbar').innerHTML=h+`</div><div class="dr"><button onpointerdown="dSide()">⇄</button><button style="flex:1" onpointerdown="setDeco(false)">✔ Pronto</button></div>`}
+function setDeco(on){S.deco=on;S.hov=null;for(const id of['jb','bA','bot'])$(id).style.display=on?'none':'';$('dbar').style.display=on?'flex':'none';if(on){S.dtab='mov';S.dsel=-2;S.dside=S.dside||'r';dPos();jr();renderDeco();toast('Escolha um móvel e toque no chão para colocar')}}
 cv.addEventListener('pointermove',e=>{if(S.deco)S.hov=dTile(e)});
 cv.addEventListener('pointerdown',e=>{if(S.deco){S.hov=dTile(e);dTap(...S.hov)}});
 function ok(x,y){const h=S.scene==='home',w=h?RW:W,hh=h?RH:H,sd=h?hdyn:solid,r=6;for(const[ox,oy]of[[-r,-2],[r,-2],[-r,r],[r,r]]){const tx=(x+ox)/T|0,ty=(y+oy)/T|0;if(x+ox<0||y+oy<0||tx>=w||ty>=hh||sd[ty][tx])return false;if(!h){const qx=x+ox,qy=y+oy;if(qy>=96&&qy<128&&((qx>=74&&qx<112)||(qx>=144&&qx<184)))return false}}return true}
 function drawHome(){g.fillStyle='#1a120c';g.fillRect(0,0,VW,VH);
- g.save();g.translate((VW-RW*T)/2|0,(VH-RH*T)/2|0);
- for(let y=2;y<RH;y++)for(let x=0;x<RW;x++){g.fillStyle=(x+y)%2?'#c98f55':'#c08850';g.fillRect(x*T,y*T,T,T);g.fillStyle='#a8703c';g.fillRect(x*T,y*T+T-2,T,2);g.fillRect(x*T+(y%2?10:22),y*T,2,T)}
- g.fillStyle='#e6d2a4';g.fillRect(0,0,RW*T,2*T);g.fillStyle='#d4bb86';for(let x=0;x<RW*T;x+=16)g.fillRect(x,0,2,2*T-8);
- g.fillStyle='#8a5a34';g.fillRect(0,2*T-8,RW*T,8);
- g.fillStyle='#4a2a14';g.fillRect(4*T,10,2*T,40);g.fillStyle='#8fd3f4';g.fillRect(4*T+4,14,2*T-8,32);g.fillStyle='#4a2a14';g.fillRect(5*T-2,14,4,32);g.fillRect(4*T+4,28,2*T-8,3);
- g.fillStyle='#6b3b1a';g.fillRect(8*T,14,36,28);g.fillStyle='#7fbf5a';g.fillRect(8*T+4,18,28,20);g.fillStyle='#8fd3f4';g.fillRect(8*T+4,18,28,9);
- g.fillStyle='#a33a3a';g.fillRect(3*T,4*T+4,4*T,2*T-8);g.fillStyle='#d9a05b';g.fillRect(3*T+4,4*T+8,4*T-8,2*T-16);g.fillStyle='#a33a3a';g.fillRect(3*T+10,4*T+14,4*T-20,2*T-28);
+ g.save();{const v=homeView();g.translate(v.ox,v.oy);g.scale(v.z,v.z)}
+ {const fl=FLOORS[FS]||FLOORS[0];for(let y=2;y<RH;y++)for(let x=0;x<RW;x++)floorTile(g,fl,x,y)}
+ wallDraw(g,WALLS[WS]||WALLS[0],RW*T);
+ 
+ 
+ 
  DEC.filter(i=>!CAT[i.c].s).forEach(i=>CAT[i.c].d(i.x*T,i.y*T));
- g.fillStyle='#6b3b1a';g.fillRect(T,2*T+2,2*T,2*T-2);g.fillStyle='#f4f0e6';g.fillRect(T+4,2*T+6,2*T-8,14);g.fillStyle='#4a86c8';g.fillRect(T+4,2*T+22,2*T-8,2*T-28);g.fillStyle='#3a70ad';g.fillRect(T+4,3*T+8,2*T-8,3);
- g.fillStyle='#8a5a34';g.fillRect(7*T,2*T+6,2*T,T-6);g.fillStyle='#a8703c';g.fillRect(7*T,2*T+6,2*T,6);g.fillStyle='#5a3a22';g.fillRect(7*T+4,3*T,4,6);g.fillRect(9*T-8,3*T,4,6);
- g.fillStyle='#c0583a';g.fillRect(8*T-6,2*T-2,12,10);g.fillStyle='#3f9b3e';g.fillRect(8*T-4,2*T-10,8,9);
- g.fillStyle='#2a1a10';g.fillRect(4*T,7*T,2*T,T);g.fillStyle='#d9a05b';g.fillRect(4*T+2,7*T+10,2*T-4,10);
+ 
+ 
+ 
+ {const dx=(RW/2-1)*T,dy=(RH-1)*T;g.fillStyle='#2a1a10';g.fillRect(dx,dy,2*T,T);g.fillStyle='#d9a05b';g.fillRect(dx+2,dy+10,2*T-4,10)}
  [...DEC.filter(i=>CAT[i.c].s).map(i=>({y:(i.y+CAT[i.c].h)*T,f:()=>CAT[i.c].d(i.x*T,i.y*T)})),{y:P.y+9,f:drawPlayer}].sort((a,b)=>a.y-b.y).forEach(o=>o.f());
  if(S.deco){g.strokeStyle='rgba(255,255,255,.25)';g.lineWidth=1;for(let x=0;x<=RW;x++){g.beginPath();g.moveTo(x*T+.5,0);g.lineTo(x*T+.5,RH*T);g.stroke()}for(let y=0;y<=RH;y++){g.beginPath();g.moveTo(0,y*T+.5);g.lineTo(RW*T,y*T+.5);g.stroke()}
   if(S.hov&&S.dsel>=0){const[x,y]=S.hov,it=CAT[S.dsel];g.globalAlpha=.65;it.d(x*T,y*T);g.globalAlpha=1;g.fillStyle=canPlace(S.dsel,x,y)?'rgba(80,255,80,.3)':'rgba(255,60,60,.35)';g.fillRect(x*T,y*T,it.w*T,it.h*T)}}
@@ -307,7 +393,7 @@ function update(dt){
   const sp=90*dt,nx=P.x+dx*sp,ny=P.y+dy*sp;
   if(ok(nx,P.y))P.x=nx;if(ok(P.x,ny))P.y=ny;
   P.ft+=dt;if(P.ft>.12){P.ft=0;P.f=(P.f+1)%4}}else{P.ft+=dt;if(P.ft>.4){P.ft=0;P.f=(P.f+1)%4}}
- S.t+=dt;if(S.scene==='farm')chk(dt);if(S.t>=DAYLEN)nextDay();survive(dt);if(S.scene==='home'&&P.y>7*T-6)leave();
+ S.t+=dt;if(S.scene==='farm')chk(dt);if(S.t>=DAYLEN)nextDay();survive(dt);if(S.scene==='home'&&P.y>(RH-1)*T-6)leave();
  const dv=S.scene==='home'&&!S.deco?'block':'none';if($('dbtn').style.display!==dv)$('dbtn').style.display=dv;if(S.deco&&S.scene!=='home')setDeco(false);
  const mn=360+Math.floor(S.t/DAYLEN*120)*10,hh=Math.floor(mn/60)%24,ts=`${hh%12||12}:${String(mn%60).padStart(2,'0')} ${hh<12?'am':'pm'}`;if($('ct').textContent!==ts)$('ct').textContent=ts;
  const sh=near()?'flex':'none';if($('cb').style.display!==sh)$('cb').style.display=sh}
@@ -316,7 +402,7 @@ function drawPlayer(){const row=P.moving?ROW[P.dir]:(P.dir=='down'?ROW.idle:ROW[
  g.drawImage(img,f*32,row*32,32,32,Math.round(P.x-20),Math.round(P.y-32),40,40)}
 function draw(){
  if(S.scene==='home')return drawHome();
- g.save();const camX=Math.max(0,Math.min(W*T-VW,P.x-VW/2)),camY=Math.max(0,Math.min(H*T-VH,P.y-VH/2));g.translate(-Math.round(camX),-Math.round(camY));
+ g.fillStyle='#1a120c';g.fillRect(0,0,VW,VH);g.save();const cl=(p,len,vw)=>len<=vw?(len-vw)/2:Math.max(0,Math.min(len-vw,p-vw/2)),camX=cl(P.x,W*T,VW),camY=cl(P.y,H*T,VH);g.translate(-Math.round(camX),-Math.round(camY));
  if(GR)g.drawImage(GR,0,0);else{g.fillStyle='#6abe30';g.fillRect(0,0,W*T,H*T)}
  g.drawImage(BG,0,0);
  const tm=performance.now()/1000;
